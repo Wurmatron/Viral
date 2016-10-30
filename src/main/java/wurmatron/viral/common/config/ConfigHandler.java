@@ -15,7 +15,10 @@ public class ConfigHandler {
 		public static File location;
 		public static Configuration config;
 
-		public static Property debug;
+		private static Property debug;
+		private static Property chance;
+		private static Property time;
+		private static Property range;
 
 		public static void preInit (FMLPreInitializationEvent e) {
 				location = e.getSuggestedConfigurationFile();
@@ -24,14 +27,18 @@ public class ConfigHandler {
 		}
 
 		public static void loadConfig () {
-				if (config != null) {
-						LogHandler.info("Loading config");
-						debug = config.get(Configuration.CATEGORY_GENERAL, "debug", Defaults.DEBUG, "Enable Debug Mode");
-						Settings.debug = debug.getBoolean();
-						if (config.hasChanged()) {
-								LogHandler.info("Config saved");
-								config.save();
-						}
+				LogHandler.info("Loading config");
+				debug = config.get(Configuration.CATEGORY_GENERAL, "debug", Defaults.DEBUG, "Enable Debug Mode");
+				Settings.debug = debug.getBoolean();
+				chance = config.get(Configuration.CATEGORY_GENERAL, "chance", Defaults.CHANCE, "Chance for the virus to spread", 0.001, 1);
+				Settings.chance = chance.getDouble();
+				time = config.get(Configuration.CATEGORY_GENERAL, "time", Defaults.TIME, "Ticks between virus infection attempts", 2, Integer.MAX_VALUE);
+				Settings.time = time.getInt();
+				range = config.get(Configuration.CATEGORY_GENERAL, "range", Defaults.RANGE, "How close another infected mob has too be too infect another", 0, 64);
+				Settings.range = range.getInt();
+				if (config.hasChanged()) {
+						LogHandler.info("Config saved");
+						config.save();
 				}
 		}
 
