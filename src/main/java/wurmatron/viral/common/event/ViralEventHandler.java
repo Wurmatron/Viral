@@ -53,7 +53,7 @@ public class ViralEventHandler {
 				if (area.size() > 0) {
 						area.stream().filter(e -> e instanceof EntityLivingBase && !(e instanceof EntityPlayer)).forEach(e -> {
 								EntityLivingBase ent = (EntityLivingBase) e;
-								if (!ent.worldObj.isRemote && ent.getAttributeMap().getAttributeInstance(VIRAL).getBaseValue() == 0.0) {
+								if (!ent.worldObj.isRemote) {
 										if (rand.nextInt(getChancePercentage()) == 0) {
 												ent.getAttributeMap().getAttributeInstance(VIRAL).setBaseValue(1.0);
 												LogHandler.debug("Infected " + ent.getDisplayName().getUnformattedComponentText() + " X: " + ent.posX + " , Y: " + ent.posY + " , Z: " + ent.posZ);
@@ -64,10 +64,10 @@ public class ViralEventHandler {
 		}
 
 		private int getChancePercentage () {
-				if (Settings.chance <= 0.01)
-						return (int) Settings.chance * 1000;
-				if (Settings.chance <= 0.1)
-						return (int) Settings.chance * 100;
-				return 0;
+				if (Settings.chance >= 0.1)
+						return 100 - (int) (Settings.chance * 100);
+				if (Settings.chance >= 0.01)
+						return 1000 - (int) (Settings.chance * 1000);
+				return 1;
 		}
 }
