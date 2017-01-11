@@ -68,8 +68,10 @@ public class ViralEventHandler {
                 if (!ent.worldObj.isRemote) {
                     if (rand.nextInt(getChancePercentage()) == 0) {
                         IViral status = ent.getCapability(ViralProvider.VIRAL, null);
-                        status.set(1);
-                        LogHandler.debug("Infected " + ent.getDisplayName().getUnformattedComponentText() + " X: " + ent.posX + " , Y: " + ent.posY + " , Z: " + ent.posZ);
+                        if (status.status() == 0) {
+                            status.set(1);
+                            LogHandler.debug("Infected " + ent.getDisplayName().getUnformattedComponentText() + " X: " + ent.posX + " , Y: " + ent.posY + " , Z: " + ent.posZ);
+                        }
                     }
                 }
             });

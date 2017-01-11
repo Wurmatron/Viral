@@ -1,0 +1,9 @@
+# Items
+item.syringe.name=Error, please report to GitHub
+item.syringeEmpty.name=Empty Syringe
+item.syringeFilled.name=Filled Syringe
+item.syringeCure.name=Cure Syringe
+item.syringeImmunity.name=Immunity Syringe
+
+# Chat
+chat.cannotCure.name=§cYou cannot create immunity while still influenced by the "Viral".
