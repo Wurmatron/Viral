@@ -20,6 +20,7 @@ public class ConfigHandler {
     private static Property time;
     private static Property range;
     private static Property particles;
+    private static Property recipes;
 
     public static void preInit(FMLPreInitializationEvent e) {
         location = e.getSuggestedConfigurationFile();
@@ -37,9 +38,10 @@ public class ConfigHandler {
         Settings.time = time.getInt();
         range = config.get(Configuration.CATEGORY_GENERAL, "range", Defaults.RANGE, "How close another infected mob has too be too infect another", 0, 64);
         Settings.range = range.getInt();
-
         particles = config.get(Configuration.CATEGORY_GENERAL, "particles", Defaults.particles, "0 = none, 1 = some, 2 = full", 0, 2);
         Settings.particles = particles.getInt();
+        recipes = config.get(Configuration.CATEGORY_GENERAL, "recipes", Defaults.recipes, "Are this mods recipes enabled");
+        Settings.recipes = recipes.getBoolean();
         if (config.hasChanged()) {
             LogHandler.info("Config saved");
             config.save();

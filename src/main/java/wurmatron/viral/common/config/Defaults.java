@@ -6,4 +6,5 @@ public class Defaults {
     public static final int TIME = 600;
     public static final int RANGE = 8;
     public static final int particles = 2;
+    public static final boolean recipes = true;
 }

@@ -6,4 +6,5 @@ public class Settings {
     public static int time;
     public static int range;
     public static int particles;
+    public static boolean recipes;
 }

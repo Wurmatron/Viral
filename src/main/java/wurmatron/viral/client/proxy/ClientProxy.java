@@ -1,5 +1,6 @@
 package wurmatron.viral.client.proxy;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
@@ -19,7 +20,9 @@ public class ClientProxy extends CommonProxy {
     }
 
     public void registerItemModels() {
-        for (int s = 0; s < ItemSyringe.NAMES.length; s++)
+        for (int s = 0; s < ItemSyringe.NAMES.length; s++) {
             ModelLoader.setCustomModelResourceLocation(Viral.syringe, s, new ModelResourceLocation(Global.MODID + ":syringe" + ItemSyringe.NAMES[s], "inventory"));
+            Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(Viral.syringe, s, new ModelResourceLocation(Global.MODID + ":syringe" + ItemSyringe.NAMES[s], "inventory"));
+        }
     }
 }
