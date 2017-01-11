@@ -1,4 +1,4 @@
-package wurmatron.viral.common.refrence;
+package wurmatron.viral.common.reference;
 
 public class Global {
 		// @Mod

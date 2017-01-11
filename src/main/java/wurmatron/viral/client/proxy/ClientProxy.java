@@ -6,9 +6,9 @@ import wurmatron.viral.common.proxy.CommonProxy;
 
 public class ClientProxy extends CommonProxy {
 
-		@Override
-		public void register () {
-				super.register();
-				MinecraftForge.EVENT_BUS.register(new ConfigHandler());
-		}
+    @Override
+    public void register() {
+        super.register();
+        MinecraftForge.EVENT_BUS.register(new ConfigHandler());
+    }
 }
