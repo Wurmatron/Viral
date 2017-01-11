@@ -2,14 +2,14 @@
 {
   "modid": "viral",
   "name": "Viral",
-  "description": "",
+  "description": "A mod about mobs that get infected. Viral makes them stronger and spreads along with hurting your animals.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "https://github.com/Wurmatron/Viral",
   "updateUrl": "",
   "authorList": ["Wurmatron"],
   "credits": "",
-  "logoFile": "",
+  "logoFile": "assets/viral/logo.png",
   "screenshots": [],
   "dependencies": []
 }
