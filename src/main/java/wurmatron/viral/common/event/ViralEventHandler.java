@@ -1,6 +1,7 @@
 package wurmatron.viral.common.event;
 
 import net.minecraft.entity.*;
+import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
@@ -42,7 +43,7 @@ public class ViralEventHandler {
     public void onLivingUpdate(LivingEvent.LivingUpdateEvent e) {
         IViral status = e.getEntityLiving().getCapability(ViralProvider.VIRAL, null);
         if (status.status() == 1) {
-            if (Settings.particles > 0) {
+            if (Settings.particles > 0)
                 if (Settings.particles == 1 && counter == 10) {
                     e.getEntityLiving().worldObj.spawnParticle(EnumParticleTypes.SPELL_MOB, e.getEntityLiving().posX, e.getEntityLiving().posY + e.getEntityLiving().height / 2, e.getEntityLiving().posZ, new Random().nextDouble(), new Random().nextDouble() + 1, new Random().nextDouble());
                     counter = 0;
@@ -50,23 +51,20 @@ public class ViralEventHandler {
                     e.getEntityLiving().worldObj.spawnParticle(EnumParticleTypes.SPELL_MOB, e.getEntityLiving().posX, e.getEntityLiving().posY + e.getEntityLiving().height / 2, e.getEntityLiving().posZ, new Random().nextDouble(), new Random().nextDouble() + 1, new Random().nextDouble());
                 else if (Settings.particles != 0 && counter >= 0)
                     counter++;
-            }
             if (!e.getEntityLiving().worldObj.isRemote && e.getEntityLiving().worldObj.getWorldTime() % Settings.time == 0)
                 spreadViral(e.getEntityLiving());
-            if (!(e.getEntityLiving() instanceof IAnimals)) {
+            if (!(e.getEntityLiving() instanceof EntityAnimal)) {
                 e.getEntityLiving().getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(e.getEntityLiving().getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getBaseValue() * 2);
                 e.getEntityLiving().addPotionEffect(new PotionEffect(Potion.getPotionById(5), 100));
                 e.getEntityLiving().addPotionEffect(new PotionEffect(Potion.getPotionById(11), 100));
                 e.getEntityLiving().addPotionEffect(new PotionEffect(Potion.getPotionById(1), 100, 2));
-            } else if (e.getEntityLiving() instanceof IAnimals) {
-                if (Settings.infectPassive) {
-                    e.getEntityLiving().addPotionEffect(new PotionEffect(Potion.getPotionById(2), 100, 4));
-                    if (Settings.hurtPassive && e.getEntityLiving().worldObj.getWorldTime() % 1000 == 0)
-                        if (passiveDamage > 0)
-                            e.getEntityLiving().attackEntityFrom(DamageSource.magic, passiveDamage);
-                } else
-                    status.set(0);
-            }
+            } else if (e.getEntityLiving() instanceof EntityAnimal && Settings.infectPassive) {
+                LogHandler.info("Animal: " + e.getEntityLiving().getClass().getName());
+                e.getEntityLiving().addPotionEffect(new PotionEffect(Potion.getPotionById(2), 100, 4));
+                if (Settings.hurtPassive && e.getEntityLiving().worldObj.getWorldTime() % 1000 == 0 && passiveDamage > 0)
+                    e.getEntityLiving().attackEntityFrom(DamageSource.magic, passiveDamage);
+            } else
+                status.set(0);
         }
     }
 
@@ -78,13 +76,11 @@ public class ViralEventHandler {
                     if (e instanceof IAnimals && !Settings.infectPassive)
                         return;
                     EntityLivingBase ent = (EntityLivingBase) e;
-                    if (!ent.worldObj.isRemote) {
-                        if (rand.nextInt(getChancePercentage()) == 0) {
-                            IViral status = ent.getCapability(ViralProvider.VIRAL, null);
-                            if (status.status() == 0) {
-                                status.set(1);
-                                LogHandler.debug("Infected " + ent.getDisplayName().getUnformattedComponentText() + " X: " + ent.posX + " , Y: " + ent.posY + " , Z: " + ent.posZ);
-                            }
+                    if (!ent.worldObj.isRemote && rand.nextInt(getChancePercentage()) == 0) {
+                        IViral status = ent.getCapability(ViralProvider.VIRAL, null);
+                        if (status.status() == 0) {
+                            status.set(1);
+                            LogHandler.debug("Infected " + ent.getDisplayName().getUnformattedComponentText() + " X: " + ent.posX + " , Y: " + ent.posY + " , Z: " + ent.posZ);
                         }
                     }
                 }
