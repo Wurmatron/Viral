@@ -7,4 +7,7 @@ public class Defaults {
     public static final int RANGE = 8;
     public static final int particles = 2;
     public static final boolean recipes = true;
+    public static final boolean infectPassive = true;
+    public static final boolean hurtPassive = true;
+    public static final double passiveDamage = 1f;
 }

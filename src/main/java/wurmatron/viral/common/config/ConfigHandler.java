@@ -21,6 +21,9 @@ public class ConfigHandler {
     private static Property range;
     private static Property particles;
     private static Property recipes;
+    private static Property infectPassive;
+    public static Property hurtPassive;
+    public static Property passiveDamage;
 
     public static void preInit(FMLPreInitializationEvent e) {
         location = e.getSuggestedConfigurationFile();
@@ -42,6 +45,12 @@ public class ConfigHandler {
         Settings.particles = particles.getInt();
         recipes = config.get(Configuration.CATEGORY_GENERAL, "recipes", Defaults.recipes, "Are this mods recipes enabled");
         Settings.recipes = recipes.getBoolean();
+        hurtPassive = config.get(Configuration.CATEGORY_GENERAL, "hurtPassive", Defaults.hurtPassive, "Will the virus hurt passive mobs?");
+        Settings.hurtPassive = hurtPassive.getBoolean();
+        infectPassive = config.get(Configuration.CATEGORY_GENERAL, "infectPassive", Defaults.infectPassive, "Can the virus infected passive mobs?");
+        Settings.infectPassive = infectPassive.getBoolean();
+        passiveDamage = config.get(Configuration.CATEGORY_GENERAL, "passiveDamage", Defaults.passiveDamage, "How much damge do passive mobs take");
+        Settings.passiveDamage = passiveDamage.getDouble();
         if (config.hasChanged()) {
             LogHandler.info("Config saved");
             config.save();

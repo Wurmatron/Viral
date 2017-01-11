@@ -1,13 +1,11 @@
 package wurmatron.viral.common.event;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.IAttribute;
-import net.minecraft.entity.ai.attributes.RangedAttribute;
+import net.minecraft.entity.*;
+import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -17,6 +15,7 @@ import wurmatron.viral.common.capabilities.ViralProvider;
 import wurmatron.viral.common.config.Settings;
 import wurmatron.viral.common.utils.LogHandler;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Random;
 
@@ -25,6 +24,7 @@ public class ViralEventHandler {
     private static int radius = Settings.range;
     private Random rand = new Random();
     private int counter = 0;
+    private float passiveDamage = new BigDecimal(Settings.passiveDamage).floatValue();
 
     @SubscribeEvent
     public void onEntitySpawn(EntityJoinWorldEvent e) {
@@ -44,37 +44,51 @@ public class ViralEventHandler {
         if (status.status() == 1) {
             if (Settings.particles > 0) {
                 if (Settings.particles == 1 && counter == 10) {
-                    e.getEntityLiving().worldObj.spawnParticle(EnumParticleTypes.SPELL_MOB, e.getEntityLiving().posX, e.getEntityLiving().posY, e.getEntityLiving().posZ, new Random().nextDouble(), new Random().nextDouble() + 1, new Random().nextDouble());
+                    e.getEntityLiving().worldObj.spawnParticle(EnumParticleTypes.SPELL_MOB, e.getEntityLiving().posX, e.getEntityLiving().posY + e.getEntityLiving().height / 2, e.getEntityLiving().posZ, new Random().nextDouble(), new Random().nextDouble() + 1, new Random().nextDouble());
                     counter = 0;
                 } else if (Settings.particles == 2)
-                    e.getEntityLiving().worldObj.spawnParticle(EnumParticleTypes.SPELL_MOB, e.getEntityLiving().posX, e.getEntityLiving().posY, e.getEntityLiving().posZ, new Random().nextDouble(), new Random().nextDouble() + 1, new Random().nextDouble());
+                    e.getEntityLiving().worldObj.spawnParticle(EnumParticleTypes.SPELL_MOB, e.getEntityLiving().posX, e.getEntityLiving().posY + e.getEntityLiving().height / 2, e.getEntityLiving().posZ, new Random().nextDouble(), new Random().nextDouble() + 1, new Random().nextDouble());
                 else if (Settings.particles != 0 && counter >= 0)
                     counter++;
             }
-            e.getEntityLiving().getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(e.getEntityLiving().getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getBaseValue() * 2);
-            e.getEntityLiving().addPotionEffect(new PotionEffect(Potion.getPotionById(5), 100));
-            e.getEntityLiving().addPotionEffect(new PotionEffect(Potion.getPotionById(11), 100));
-            e.getEntityLiving().addPotionEffect(new PotionEffect(Potion.getPotionById(1), 100, 2));
             if (!e.getEntityLiving().worldObj.isRemote && e.getEntityLiving().worldObj.getWorldTime() % Settings.time == 0)
                 spreadViral(e.getEntityLiving());
+            if (!(e.getEntityLiving() instanceof IAnimals)) {
+                e.getEntityLiving().getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(e.getEntityLiving().getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getBaseValue() * 2);
+                e.getEntityLiving().addPotionEffect(new PotionEffect(Potion.getPotionById(5), 100));
+                e.getEntityLiving().addPotionEffect(new PotionEffect(Potion.getPotionById(11), 100));
+                e.getEntityLiving().addPotionEffect(new PotionEffect(Potion.getPotionById(1), 100, 2));
+            } else if (e.getEntityLiving() instanceof IAnimals) {
+                if (Settings.infectPassive) {
+                    e.getEntityLiving().addPotionEffect(new PotionEffect(Potion.getPotionById(2), 100, 4));
+                    if (Settings.hurtPassive && e.getEntityLiving().worldObj.getWorldTime() % 1000 == 0)
+                        if (passiveDamage > 0)
+                            e.getEntityLiving().attackEntityFrom(DamageSource.magic, passiveDamage);
+                } else
+                    status.set(0);
+            }
         }
     }
 
     private void spreadViral(EntityLivingBase entity) {
         List<Entity> area = entity.worldObj.getEntitiesWithinAABBExcludingEntity(entity, entity.getEntityBoundingBox().expand(radius, radius, radius));
         if (area.size() > 0) {
-            area.stream().filter(e -> e instanceof EntityLivingBase && !(e instanceof EntityPlayer)).forEach(e -> {
-                EntityLivingBase ent = (EntityLivingBase) e;
-                if (!ent.worldObj.isRemote) {
-                    if (rand.nextInt(getChancePercentage()) == 0) {
-                        IViral status = ent.getCapability(ViralProvider.VIRAL, null);
-                        if (status.status() == 0) {
-                            status.set(1);
-                            LogHandler.debug("Infected " + ent.getDisplayName().getUnformattedComponentText() + " X: " + ent.posX + " , Y: " + ent.posY + " , Z: " + ent.posZ);
+            for (Entity e : area) {
+                if (!(e instanceof EntityPlayer) && e instanceof EntityLivingBase) {
+                    if (e instanceof IAnimals && !Settings.infectPassive)
+                        return;
+                    EntityLivingBase ent = (EntityLivingBase) e;
+                    if (!ent.worldObj.isRemote) {
+                        if (rand.nextInt(getChancePercentage()) == 0) {
+                            IViral status = ent.getCapability(ViralProvider.VIRAL, null);
+                            if (status.status() == 0) {
+                                status.set(1);
+                                LogHandler.debug("Infected " + ent.getDisplayName().getUnformattedComponentText() + " X: " + ent.posX + " , Y: " + ent.posY + " , Z: " + ent.posZ);
+                            }
                         }
                     }
                 }
-            });
+            }
         }
     }
 
