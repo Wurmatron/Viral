@@ -59,7 +59,6 @@ public class ViralEventHandler {
                 e.getEntityLiving().addPotionEffect(new PotionEffect(Potion.getPotionById(11), 100));
                 e.getEntityLiving().addPotionEffect(new PotionEffect(Potion.getPotionById(1), 100, 2));
             } else if (e.getEntityLiving() instanceof EntityAnimal && Settings.infectPassive) {
-                LogHandler.info("Animal: " + e.getEntityLiving().getClass().getName());
                 e.getEntityLiving().addPotionEffect(new PotionEffect(Potion.getPotionById(2), 100, 4));
                 if (Settings.hurtPassive && e.getEntityLiving().worldObj.getWorldTime() % 1000 == 0 && passiveDamage > 0)
                     e.getEntityLiving().attackEntityFrom(DamageSource.magic, passiveDamage);
