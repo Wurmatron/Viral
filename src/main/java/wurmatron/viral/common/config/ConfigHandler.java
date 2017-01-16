@@ -49,7 +49,7 @@ public class ConfigHandler {
         Settings.hurtPassive = hurtPassive.getBoolean();
         infectPassive = config.get(Configuration.CATEGORY_GENERAL, "infectPassive", Defaults.infectPassive, "Can the virus infected passive mobs?");
         Settings.infectPassive = infectPassive.getBoolean();
-        passiveDamage = config.get(Configuration.CATEGORY_GENERAL, "passiveDamage", Defaults.passiveDamage, "How much damge do passive mobs take");
+        passiveDamage = config.get(Configuration.CATEGORY_GENERAL, "passiveDamage", Defaults.passiveDamage, "How much damage do passive mobs take");
         Settings.passiveDamage = passiveDamage.getDouble();
         if (config.hasChanged()) {
             LogHandler.info("Config saved");

@@ -7,3 +7,8 @@ item.syringeImmunity.name=Immunity Syringe
 
 # Chat
 chat.cannotCure.name=§cYou cannot create immunity while still influenced by the "Viral".
+
+# Description
+description.filledSyringe.name=Using an Empty Syringe click on an infected mob.
+description.imunitySyringe.name=Can be used to make an uninfected mob immune from the virus.
+description.cureSyringe.name=Able to cure a single mob of the virus.
