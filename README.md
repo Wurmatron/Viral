@@ -1,0 +1,2 @@
+# Viral
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/a1b099b43e0c41c29992818c1a9a99de)](https://www.codacy.com/app/wurmatron/Viral?utm_source=github.com&utm_medium=referral&utm_content=Wurmatron/Viral&utm_campaign=badger)
