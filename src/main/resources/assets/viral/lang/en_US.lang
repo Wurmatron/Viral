@@ -5,6 +5,10 @@ item.syringeFilled.name=Filled Syringe
 item.syringeCure.name=Cure Syringe
 item.syringeImmunity.name=Immunity Syringe
 
+# Blocks
+tile.torchInterdiction.name=Interdiction Torch
+tile.torchInterdictionInverted.name=Interdiction Torch (Inverted)
+
 # Chat
 chat.cannotCure.name=§cYou cannot create immunity while still influenced by the "Viral".
 

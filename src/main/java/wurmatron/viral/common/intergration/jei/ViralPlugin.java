@@ -5,8 +5,6 @@ import mezz.jei.api.IModRegistry;
 import mezz.jei.api.JEIPlugin;
 import wurmatron.viral.Viral;
 
-import javax.annotation.Nonnull;
-
 @JEIPlugin
 public class ViralPlugin extends BlankModPlugin {
     @Override

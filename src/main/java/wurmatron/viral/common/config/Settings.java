@@ -10,4 +10,6 @@ public class Settings {
     public static boolean infectPassive;
     public static boolean hurtPassive;
     public static double passiveDamage;
+    public static boolean torches;
+    public static int radius;
 }

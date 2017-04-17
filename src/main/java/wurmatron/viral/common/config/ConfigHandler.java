@@ -24,6 +24,8 @@ public class ConfigHandler {
     private static Property infectPassive;
     public static Property hurtPassive;
     public static Property passiveDamage;
+    public static Property torches;
+    public static Property radius;
 
     public static void preInit(FMLPreInitializationEvent e) {
         location = e.getSuggestedConfigurationFile();
@@ -51,6 +53,10 @@ public class ConfigHandler {
         Settings.infectPassive = infectPassive.getBoolean();
         passiveDamage = config.get(Configuration.CATEGORY_GENERAL, "passiveDamage", Defaults.passiveDamage, "How much damage do passive mobs take");
         Settings.passiveDamage = passiveDamage.getDouble();
+        torches = config.get(Configuration.CATEGORY_GENERAL, "torches", Defaults.torches, "Are the interdiction torches enabled");
+        Settings.torches = torches.getBoolean();
+        radius = config.get(Configuration.CATEGORY_GENERAL, "radius", Defaults.radius, "Range of the interdiction torches",0,64);
+        Settings.radius = radius.getInt();
         if (config.hasChanged()) {
             LogHandler.info("Config saved");
             config.save();
