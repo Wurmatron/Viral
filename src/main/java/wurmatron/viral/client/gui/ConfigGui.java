@@ -14,18 +14,18 @@ import java.util.List;
 
 public class ConfigGui extends GuiConfig {
 
-    public ConfigGui(GuiScreen parent) {
-        super(parent, getConfigElements(), Global.MODID, false, false, "Viral Configuration");
-    }
+	public ConfigGui (GuiScreen parent) {
+		super (parent,getConfigElements (),Global.MODID,false,false,"Viral Configuration");
+	}
 
 
-    private static List<IConfigElement> getConfigElements() {
-        List<IConfigElement> list = new ArrayList<>();
-        list.add(categoryElement(Configuration.CATEGORY_GENERAL, "General", "config.category.general"));
-        return list;
-    }
+	private static List <IConfigElement> getConfigElements () {
+		List <IConfigElement> list = new ArrayList <> ();
+		list.add (categoryElement (Configuration.CATEGORY_GENERAL,"General","config.category.general"));
+		return list;
+	}
 
-    private static IConfigElement categoryElement(String category, String name, String tooltip_key) {
-        return new DummyConfigElement.DummyCategoryElement(name, tooltip_key, new ConfigElement(ConfigHandler.config.getCategory(category)).getChildElements());
-    }
+	private static IConfigElement categoryElement (String category,String name,String tooltip_key) {
+		return new DummyConfigElement.DummyCategoryElement (name,tooltip_key,new ConfigElement (ConfigHandler.config.getCategory (category)).getChildElements ());
+	}
 }

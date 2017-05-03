@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "viral:torchInterdiction"
+    },
+    "facing=east": {
+      "model": "viral:torchInterdiction_side"
+    },
+    "facing=south": {
+      "model": "viral:torchInterdiction_side",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "viral:torchInterdiction_side",
+      "y": 180
+    },
+    "facing=north": {
+      "model": "viral:torchInterdiction_side",
+      "y": 270
+    }
+  }
+}
