@@ -3,6 +3,7 @@ package wurmatron.viral.common.items;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class ItemSyringe extends Item {
 	}
 
 	@Override
-	public void getSubItems (Item item,CreativeTabs tab,List <ItemStack> sub) {
+	public void getSubItems (Item item,CreativeTabs tab,NonNullList <ItemStack> sub) {
 		for (int s = 0; s < NAMES.length; s++)
 			sub.add (new ItemStack (item,1,s));
 	}

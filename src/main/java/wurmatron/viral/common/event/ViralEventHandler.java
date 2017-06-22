@@ -47,13 +47,13 @@ public class ViralEventHandler {
 		if (status.status () == 1) {
 			if (Settings.particles > 0)
 				if (Settings.particles == 1 && counter == 10) {
-					e.getEntityLiving ().worldObj.spawnParticle (EnumParticleTypes.DRAGON_BREATH,e.getEntityLiving ().posX,e.getEntityLiving ().posY,e.getEntityLiving ().posZ,((rand.nextDouble () - 0.5D) * (double) e.getEntityLiving ().width) / 5,(rand.nextDouble () * (double) e.getEntityLiving ().height) / 5,((rand.nextDouble () - 0.5D) * (double) e.getEntityLiving ().width) / 5);
+					e.getEntityLiving ().world.spawnParticle (EnumParticleTypes.DRAGON_BREATH,e.getEntityLiving ().posX,e.getEntityLiving ().posY,e.getEntityLiving ().posZ,((rand.nextDouble () - 0.5D) * (double) e.getEntityLiving ().width) / 5,(rand.nextDouble () * (double) e.getEntityLiving ().height) / 5,((rand.nextDouble () - 0.5D) * (double) e.getEntityLiving ().width) / 5);
 					counter = 0;
 				} else if (Settings.particles == 2)
-					e.getEntityLiving ().worldObj.spawnParticle (EnumParticleTypes.DRAGON_BREATH,e.getEntityLiving ().posX,e.getEntityLiving ().posY,e.getEntityLiving ().posZ,((rand.nextDouble () - 0.5D) * (double) e.getEntityLiving ().width) / 5,(rand.nextDouble () * (double) e.getEntityLiving ().height) / 5,((rand.nextDouble () - 0.5D) * (double) e.getEntityLiving ().width) / 5);
+					e.getEntityLiving ().world.spawnParticle (EnumParticleTypes.DRAGON_BREATH,e.getEntityLiving ().posX,e.getEntityLiving ().posY,e.getEntityLiving ().posZ,((rand.nextDouble () - 0.5D) * (double) e.getEntityLiving ().width) / 5,(rand.nextDouble () * (double) e.getEntityLiving ().height) / 5,((rand.nextDouble () - 0.5D) * (double) e.getEntityLiving ().width) / 5);
 				else if (Settings.particles != 0 && counter >= 0)
 					counter++;
-			if (!e.getEntityLiving ().worldObj.isRemote && e.getEntityLiving ().worldObj.getWorldTime () % Settings.time == 0)
+			if (!e.getEntityLiving ().world.isRemote && e.getEntityLiving ().world.getWorldTime () % Settings.time == 0)
 				spreadViral (e.getEntityLiving ());
 			if (!(e.getEntityLiving () instanceof EntityAnimal)) {
 				e.getEntityLiving ().getEntityAttribute (SharedMonsterAttributes.MAX_HEALTH).setBaseValue (e.getEntityLiving ().getEntityAttribute (SharedMonsterAttributes.MAX_HEALTH).getBaseValue () * 2);
@@ -62,22 +62,22 @@ public class ViralEventHandler {
 				e.getEntityLiving ().addPotionEffect (new PotionEffect (Potion.getPotionById (1),100,2));
 			} else if (e.getEntityLiving () instanceof EntityAnimal && Settings.infectPassive) {
 				e.getEntityLiving ().addPotionEffect (new PotionEffect (Potion.getPotionById (2),100,4));
-				if (Settings.hurtPassive && e.getEntityLiving ().worldObj.getWorldTime () % 1000 == 0 && passiveDamage > 0)
-					e.getEntityLiving ().attackEntityFrom (DamageSource.magic,passiveDamage);
+				if (Settings.hurtPassive && ((EntityAnimal) e.getEntityLiving ()).world.getWorldTime () % 1000 == 0 && passiveDamage > 0)
+					e.getEntityLiving ().attackEntityFrom (DamageSource.MAGIC,passiveDamage);
 			} else
 				status.set (0);
 		}
 	}
 
 	private void spreadViral (EntityLivingBase entity) {
-		List <Entity> area = entity.worldObj.getEntitiesWithinAABBExcludingEntity (entity,entity.getEntityBoundingBox ().expand (radius,radius,radius));
+		List <Entity> area = entity.world.getEntitiesWithinAABBExcludingEntity (entity,entity.getEntityBoundingBox ().expand (radius,radius,radius));
 		if (area.size () > 0) {
 			for (Entity e : area) {
 				if (!(e instanceof EntityPlayer) && e instanceof EntityLivingBase) {
 					if (e instanceof IAnimals && !Settings.infectPassive)
 						return;
 					EntityLivingBase ent = (EntityLivingBase) e;
-					if (!ent.worldObj.isRemote && rand.nextInt (getChancePercentage ()) == 0) {
+					if (!ent.world.isRemote && rand.nextInt (getChancePercentage ()) == 0) {
 						IViral status = ent.getCapability (ViralProvider.VIRAL,null);
 						if (status.status () == 0) {
 							status.set (1);

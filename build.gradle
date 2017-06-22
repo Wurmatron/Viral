@@ -22,14 +22,14 @@ targetCompatibility = 1.8
 minecraft {
     version = "${mc_version}-${forge_version}"
     runDir = "run"
-    mappings = "snapshot_20160922"
-	replace "@VERSION@", project.version
+    mappings = "snapshot_20161220"
+	  replace "@VERSION@", project.version
     replaceIn "Global.java"
 }
 
 repositories {
 	maven {
-		url = "http://dvs1.progwml6.com/files/maven"	
+		url = "http://dvs1.progwml6.com/files/maven"
 	}
 }
 
@@ -47,7 +47,7 @@ processResources
         include 'mcmod.info'
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
-	
+
 	from(sourceSets.main.resources.srcDirs) {
         exclude '**/*.info'
         exclude '**/*.properties'

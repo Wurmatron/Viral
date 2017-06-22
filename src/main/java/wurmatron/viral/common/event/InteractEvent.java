@@ -25,7 +25,7 @@ public class InteractEvent {
 					if (!e.getEntityPlayer ().capabilities.isCreativeMode)
 						e.getEntityPlayer ().inventory.deleteStack (e.getEntityPlayer ().getHeldItemMainhand ());
 					for (int i = 0; i <= 20; i++)
-						e.getTarget ().worldObj.spawnParticle (EnumParticleTypes.DRAGON_BREATH,e.getTarget ().posX,e.getTarget ().posY,e.getTarget ().posZ,new Random ().nextDouble (),new Random ().nextDouble () + 1,new Random ().nextDouble ());
+						e.getTarget ().world.spawnParticle (EnumParticleTypes.DRAGON_BREATH,e.getTarget ().posX,e.getTarget ().posY,e.getTarget ().posZ,new Random ().nextDouble (),new Random ().nextDouble () + 1,new Random ().nextDouble ());
 				}
 			} else if (e.getEntityPlayer ().getHeldItemMainhand ().isItemEqual (Viral.syringeCure)) {
 				if (status.status () == 1) {
@@ -33,7 +33,7 @@ public class InteractEvent {
 					if (!e.getEntityPlayer ().capabilities.isCreativeMode)
 						e.getEntityPlayer ().inventory.deleteStack (e.getEntityPlayer ().getHeldItemMainhand ());
 					for (int i = 0; i <= 20; i++)
-						e.getTarget ().worldObj.spawnParticle (EnumParticleTypes.DRAGON_BREATH,e.getTarget ().posX,e.getTarget ().posY,e.getTarget ().posZ,new Random ().nextDouble (),new Random ().nextDouble () + 1,new Random ().nextDouble ());
+						e.getTarget ().world.spawnParticle (EnumParticleTypes.DRAGON_BREATH,e.getTarget ().posX,e.getTarget ().posY,e.getTarget ().posZ,new Random ().nextDouble (),new Random ().nextDouble () + 1,new Random ().nextDouble ());
 				}
 			} else if (e.getEntityPlayer ().getHeldItemMainhand ().isItemEqual (Viral.syringeImunity)) {
 				if (status.status () == 0) {
@@ -41,9 +41,9 @@ public class InteractEvent {
 					if (!e.getEntityPlayer ().capabilities.isCreativeMode)
 						e.getEntityPlayer ().inventory.deleteStack (e.getEntityPlayer ().getHeldItemMainhand ());
 					for (int i = 0; i <= 100; i++)
-						e.getTarget ().worldObj.spawnParticle (EnumParticleTypes.DRAGON_BREATH,e.getTarget ().posX,e.getTarget ().posY,e.getTarget ().posZ,new Random ().nextDouble (),new Random ().nextDouble () + 1,new Random ().nextDouble ());
-				} else if (status.status () == 1 && !e.getEntityPlayer ().worldObj.isRemote)
-					e.getEntityPlayer ().addChatComponentMessage (new TextComponentTranslation ("chat.cannotCure.name"));
+						e.getTarget ().world.spawnParticle (EnumParticleTypes.DRAGON_BREATH,e.getTarget ().posX,e.getTarget ().posY,e.getTarget ().posZ,new Random ().nextDouble (),new Random ().nextDouble () + 1,new Random ().nextDouble ());
+				} else if (status.status () == 1 && !e.getEntityPlayer ().world.isRemote)
+					e.getEntityPlayer ().sendMessage (new TextComponentTranslation ("chat.cannotCure.name"));
 			}
 	}
 }

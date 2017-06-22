@@ -36,6 +36,7 @@ public class Viral {
 	public static final ItemStack syringeImunity = new ItemStack (syringe,1,3);
 	public static final ViralInterdictionTorch torchInterdiction = new ViralInterdictionTorch ();
 	public static final ViralInterdictionTorchInverted torchInterdictionInverted = new ViralInterdictionTorchInverted ();
+
 	@Mod.Instance (Global.MODID)
 	public static Viral instance;
 	@SidedProxy (serverSide = Global.COMMONPROXY, clientSide = Global.CLIENTPROXY)
