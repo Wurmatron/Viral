@@ -1,7 +1,7 @@
 {
   "parent": "builtin/generated",
   "textures": {
-    "layer0": "viral:items/syringeCure"
+    "layer0": "viral:items/syringefilled"
   },
   "display": {
     "thirdperson": {
