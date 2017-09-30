@@ -46,19 +46,4 @@ public class Registry {
 		e.getRegistry ().registerAll (items.toArray (new Item[0]));
 		e.getRegistry ().registerAll (blockItems.values ().toArray (new Item[0]));
 	}
-
-//	@SubscribeEvent
-//	public void registerItemModels (ModelBakeEvent e) {
-//		for (Item item : Registry.items)
-//			if (!(item instanceof ItemSyringe))
-//				ModelLoader.setCustomModelResourceLocation (item,0,new ModelResourceLocation (item.getRegistryName ().toString (),"inventory"));
-//
-//		ModelLoader.setCustomModelResourceLocation (Viral.syringe,3,new ModelResourceLocation (Global.MODID +  ":test", "inventory"));
-//		for(int index = 0; index < ItemSyringe.EnumType.values ().length; index++)
-//			ModelLoader.setCustomModelResourceLocation (Viral.syringe,ItemSyringe.EnumType.values ()[index].meta, new ModelResourceLocation (Viral.syringe.getRegistryName (), "syringe" + "=" + ItemSyringe.EnumType.values ()[index]));
-//		//		for (int s = 0; s < ItemSyringe.NAMES.length; s++)
-////			ModelLoader.setCustomModelResourceLocation (Viral.syringe,s,new ModelResourceLocation (Global.MODID + ":syringe" + ItemSyringe.NAMES[s],"inventory"));
-//		ModelLoader.setCustomModelResourceLocation (Item.getItemFromBlock (Viral.torchInterdiction),0,new ModelResourceLocation (Global.MODID + ":torchInterdiction","inventory"));
-//		ModelLoader.setCustomModelResourceLocation (Item.getItemFromBlock (Viral.torchInterdictionInverted),0,new ModelResourceLocation (Global.MODID + ":torchInterdiction","inventory"));
-//	}
 }

@@ -26,6 +26,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import wurmatron.viral.client.proxy.ClientProxy;
 import wurmatron.viral.common.blocks.ViralInterdictionTorch;
 import wurmatron.viral.common.blocks.ViralInterdictionTorchInverted;
+import wurmatron.viral.common.blocks.ViralShield;
 import wurmatron.viral.common.capabilities.IViral;
 import wurmatron.viral.common.capabilities.ViralData;
 import wurmatron.viral.common.capabilities.ViralStorage;
@@ -50,6 +51,7 @@ public class Viral {
 	public static final ItemStack syringeImunity = new ItemStack (syringe,1,3);
 	public static final ViralInterdictionTorch torchInterdiction = new ViralInterdictionTorch ();
 	public static final ViralInterdictionTorchInverted torchInterdictionInverted = new ViralInterdictionTorchInverted ();
+	public static final ViralShield shield = new ViralShield ();
 
 	@Mod.Instance (Global.MODID)
 	public static Viral instance;
@@ -62,6 +64,7 @@ public class Viral {
 		Registry.registerItem (syringe,syringe.getUnlocalizedName ().substring (5));
 		Registry.registerBlock (torchInterdiction,torchInterdiction.getUnlocalizedName ().substring (5));
 		Registry.registerBlock (torchInterdictionInverted,torchInterdictionInverted.getUnlocalizedName ().substring (5));
+		Registry.registerBlock (shield,shield.getUnlocalizedName ().substring (5));
 		MinecraftForge.EVENT_BUS.register (new Registry ());
 		MinecraftForge.EVENT_BUS.register (new ClientProxy ());
 	}

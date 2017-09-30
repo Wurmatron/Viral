@@ -1,17 +1,18 @@
 package wurmatron.viral.common.blocks;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockTorch;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import wurmatron.viral.common.capabilities.IViral;
 import wurmatron.viral.common.capabilities.ViralProvider;
 import wurmatron.viral.common.config.Settings;
@@ -20,11 +21,11 @@ import wurmatron.viral.common.utils.LogHandler;
 import java.util.List;
 import java.util.Random;
 
-public class ViralInterdictionTorch extends BlockTorch {
+public class ViralShield extends BlockTorch {
 
-	public ViralInterdictionTorch () {
+	public ViralShield () {
 		setCreativeTab (CreativeTabs.DECORATIONS);
-		setUnlocalizedName ("torchInterdiction");
+		setUnlocalizedName ("shield");
 		setHardness (1);
 		setResistance (5);
 		setLightLevel (12);
@@ -42,12 +43,7 @@ public class ViralInterdictionTorch extends BlockTorch {
 				if (!(e instanceof EntityPlayer)) {
 					IViral status = e.getCapability (ViralProvider.VIRAL,null);
 					if (status != null && status.status () != -1 && status.status () == 1) {
-						double distance = e.getDistanceSqToCenter (pos);
-						double knockbackSpeed = 1 + (1 / distance);
-						Vec3d angle = new Vec3d (e.posX - (pos.getX () + 0.5),e.posY - pos.getY (),e.posZ - (pos.getZ () + 0.5));
-						e.motionX += angle.x * knockbackSpeed;
-						e.motionY += angle.y * knockbackSpeed;
-						e.motionZ += angle.z * knockbackSpeed;
+						e.setDead ();
 					}
 				}
 			}
@@ -56,5 +52,21 @@ public class ViralInterdictionTorch extends BlockTorch {
 
 	public int tickRate (World worldIn) {
 		return 5;
+	}
+
+	@Override
+	public void randomDisplayTick (IBlockState state,World world,BlockPos pos,Random rand) {
+		EnumFacing facing =  state.getValue (FACING);
+		double d0 = (double) pos.getX () + 0.5D;
+		double d1 = (double) pos.getY () + 0.7D;
+		double d2 = (double) pos.getZ () + 0.5D;
+		if (facing.getAxis ().isHorizontal ()) {
+			EnumFacing enumfacing1 = facing.getOpposite ();
+			world.spawnParticle (EnumParticleTypes.SMOKE_NORMAL,d0 + 0.27D * (double) enumfacing1.getFrontOffsetX (),d1 + 0.22D,d2 + 0.27D * (double) enumfacing1.getFrontOffsetZ (),0.0D,0.0D,0.0D);
+			world.spawnParticle (EnumParticleTypes.DRAGON_BREATH,d0 + 0.27D * (double) enumfacing1.getFrontOffsetX (),d1 + 0.22D,d2 + 0.27D * (double) enumfacing1.getFrontOffsetZ (),0.0D,0.0D,0.0D);
+		} else {
+			world.spawnParticle (EnumParticleTypes.SMOKE_NORMAL,d0,d1,d2,0.0D,0.0D,0.0D);
+			world.spawnParticle (EnumParticleTypes.DRAGON_BREATH,d0,d1,d2,0.0D,0.0D,0.0D);
+		}
 	}
 }

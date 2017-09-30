@@ -36,5 +36,6 @@ public class ClientProxy extends CommonProxy {
 			ModelLoader.setCustomModelResourceLocation (Viral.syringe, s, new ModelResourceLocation (Global.MODID + ":syringe" + ItemSyringe.EnumType.values ()[s].name,"inventory"));
 		ModelLoader.setCustomModelResourceLocation (Registry.blockItems.get (Viral.torchInterdiction),0,new ModelResourceLocation (Global.MODID + ":torchinterdiction","inventory"));
 		ModelLoader.setCustomModelResourceLocation (Registry.blockItems.get (Viral.torchInterdictionInverted),0,new ModelResourceLocation (Global.MODID + ":torchinterdictioninverted","inventory"));
+		ModelLoader.setCustomModelResourceLocation (Registry.blockItems.get (Viral.shield),0,new ModelResourceLocation (Global.MODID + ":shield","inventory"));
 	}
 }

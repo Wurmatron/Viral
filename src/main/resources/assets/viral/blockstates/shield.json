@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "viral:shield"
+    },
+    "facing=east": {
+      "model": "viral:shield_side"
+    },
+    "facing=south": {
+      "model": "viral:shield_side",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "viral:shield_side",
+      "y": 180
+    },
+    "facing=north": {
+      "model": "viral:shield_side",
+      "y": 270
+    }
+  }
+}
