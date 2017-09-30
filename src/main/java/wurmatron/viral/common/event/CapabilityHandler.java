@@ -12,8 +12,8 @@ public class CapabilityHandler {
 	private static final ResourceLocation VIRAL = new ResourceLocation (Global.MODID,"viral");
 
 	@SubscribeEvent
-	public void attachCapability (AttachCapabilitiesEvent.Entity event) {
-		if (event.getEntity () instanceof EntityLivingBase)
+	public void attachCapability (AttachCapabilitiesEvent event) {
+		if (event.getObject () instanceof EntityLivingBase)
 			event.addCapability (VIRAL,new ViralProvider ());
 	}
 }

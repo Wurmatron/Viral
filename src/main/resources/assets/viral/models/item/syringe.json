@@ -1,0 +1,31 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "builtin/generated"
+	},
+	"variants": {
+		"variant": {
+			"0": {
+				"textures": {
+					"layer0": "viral:items/emptySyringe"
+				}
+			},
+			"1": {
+				"textures": {
+					"layer0": "testmod3:items/variants.b"
+				}
+			},
+			"2": {
+				"textures": {
+					"layer0": "testmod3:items/variants.c"
+				}
+			},
+			"3": {
+				"textures": {
+					"layer0": "testmod3:items/variants.b"
+				}
+			}
+		
+		}
+	}
+}

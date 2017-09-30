@@ -1,0 +1,17 @@
+{
+  "type": "forge:ore_shapeless",
+  "ingredients": [
+    {
+      "item": "viral:torchInterdiction"
+    }, {
+      "type": "forge:ore_dict",
+      "ore": "gemEmerald"
+    }, {
+      "item": "viral:syringe",
+      "data": 0
+    }
+  ],
+  "result": {
+    "item": "viral:torchInterdictionInverted"
+  }
+}

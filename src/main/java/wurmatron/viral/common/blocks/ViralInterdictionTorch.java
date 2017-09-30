@@ -23,7 +23,6 @@ public class ViralInterdictionTorch extends BlockTorch {
 	public ViralInterdictionTorch () {
 		setCreativeTab (CreativeTabs.DECORATIONS);
 		setUnlocalizedName ("torchInterdiction");
-		setRegistryName ("torchInterdiction");
 		setHardness (1);
 		setResistance (5);
 		setLightLevel (12);
@@ -46,18 +45,12 @@ public class ViralInterdictionTorch extends BlockTorch {
 							distance = 1;
 						double knockback = 1 + (1 / distance);
 						Vec3d angle = new Vec3d (e.posX - (pos.getX () + 0.5),e.posY - pos.getY (),e.posZ - (pos.getZ () + 0.5));
-						e.motionX += angle.xCoord * knockback * 0.05;
-						e.motionY += angle.yCoord * knockback * 0.05;
-						e.motionZ += angle.zCoord * knockback * 0.05;
+						e.motionX += angle.x * knockback * 0.05;
+						e.motionY += angle.y * knockback * 0.05;
+						e.motionZ += angle.z * knockback * 0.05;
 					}
 				}
 			}
 		}
-	}
-
-	@Override
-	@SideOnly (Side.CLIENT)
-	public void randomDisplayTick (IBlockState state,World world,BlockPos pos,Random random) {
-
 	}
 }

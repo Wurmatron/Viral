@@ -1,0 +1,22 @@
+{
+  "type": "forge:ore_shapeless",
+  "ingredients": [
+    {
+      "item": "viral:syringe",
+      "data": 1
+    }, {
+      "type": "forge:ore_dict",
+      "ore": "dustGlowstone"
+    }, {
+      "type": "forge:ore_dict",
+      "ore": "treeSapling"
+    }, {
+      "type": "forge:ore_dict",
+      "ore": "ingotIron"
+    }
+  ],
+  "result": {
+    "item": "viral:syringe",
+    "data": 2
+  }
+}

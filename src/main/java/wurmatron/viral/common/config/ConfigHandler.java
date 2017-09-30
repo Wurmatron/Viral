@@ -23,7 +23,6 @@ public class ConfigHandler {
 	private static Property time;
 	private static Property range;
 	private static Property particles;
-	private static Property recipes;
 	private static Property infectPassive;
 
 	public static void preInit (FMLPreInitializationEvent e) {
@@ -44,8 +43,6 @@ public class ConfigHandler {
 		Settings.range = range.getInt ();
 		particles = config.get (Configuration.CATEGORY_GENERAL,"particles",Defaults.particles,"0 = none, 1 = some, 2 = full",0,2);
 		Settings.particles = particles.getInt ();
-		recipes = config.get (Configuration.CATEGORY_GENERAL,"recipes",Defaults.recipes,"Are this mods recipes enabled");
-		Settings.recipes = recipes.getBoolean ();
 		hurtPassive = config.get (Configuration.CATEGORY_GENERAL,"hurtPassive",Defaults.hurtPassive,"Will the virus hurt passive mobs?");
 		Settings.hurtPassive = hurtPassive.getBoolean ();
 		infectPassive = config.get (Configuration.CATEGORY_GENERAL,"infectPassive",Defaults.infectPassive,"Can the virus infected passive mobs?");

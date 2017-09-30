@@ -18,12 +18,9 @@ import java.util.Random;
 
 public class ViralInterdictionTorchInverted extends BlockTorch {
 
-	private static final int radius = Settings.radius;
-
 	public ViralInterdictionTorchInverted () {
 		setCreativeTab (CreativeTabs.DECORATIONS);
 		setUnlocalizedName ("torchInterdictionInverted");
-		setRegistryName ("torchInterdictionInverted");
 		setHardness (1);
 		setResistance (5);
 		setLightLevel (12);
@@ -44,11 +41,12 @@ public class ViralInterdictionTorchInverted extends BlockTorch {
 							continue;
 						if (distance < 1)
 							distance = 1;
+						// TODO Same as regular torch?
 						double knockback = 1 + (1 / distance);
 						Vec3d angle = new Vec3d (e.posX - (pos.getX () + 0.5),e.posY - pos.getY (),e.posZ - (pos.getZ () + 0.5));
-						e.motionX += angle.xCoord * knockback * 0.05;
-						e.motionY += angle.yCoord * knockback * 0.05;
-						e.motionZ += angle.zCoord * knockback * 0.05;
+						e.motionX += angle.x * knockback * 0.05;
+						e.motionY += angle.y * knockback * 0.05;
+						e.motionZ += angle.z * knockback * 0.05;
 					}
 				}
 			}
