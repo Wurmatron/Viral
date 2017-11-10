@@ -34,7 +34,7 @@ public class ViralEventHandler {
 		if (!(e.getEntity () instanceof EntityPlayer) && e.getEntity () instanceof EntityLivingBase) {
 			EntityLivingBase entity = (EntityLivingBase) e.getEntity ();
 			IViral status = entity.getCapability (ViralProvider.VIRAL,null);
-			if (getChancePercentage () >= 1)
+			if (getChancePercentage () >= 100)
 				status.set (1);
 			else if (rand.nextInt (getChancePercentage ()) == 0)
 				status.set (1);
@@ -77,7 +77,7 @@ public class ViralEventHandler {
 					if (e instanceof IAnimals && !Settings.infectPassive)
 						return;
 					EntityLivingBase ent = (EntityLivingBase) e;
-					if (!ent.world.isRemote && rand.nextInt (getChancePercentage ()) == 0) {
+					if (!ent.world.isRemote && rand.nextInt (getChancePercentage () - 1) == 0) {
 						IViral status = ent.getCapability (ViralProvider.VIRAL,null);
 						if (status.status () == 0) {
 							status.set (1);
@@ -90,11 +90,6 @@ public class ViralEventHandler {
 	}
 
 	private int getChancePercentage () {
-		if (Settings.chance < 1)
-			if (Settings.chance >= 0.1)
-				return 100 - (int) (Settings.chance * 100);
-			else if (Settings.chance >= 0.01)
-				return 1000 - (int) (Settings.chance * 1000);
-		return 1;
+		return (int) (Settings.chance * 100);
 	}
 }
