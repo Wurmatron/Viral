@@ -22,8 +22,9 @@ public class ItemSyringe extends Item {
 
 	@Override
 	public void getSubItems (CreativeTabs tab,NonNullList <ItemStack> sub) {
-		for (int s = 0; s < EnumType.values ().length; s++)
-			sub.add (new ItemStack (Viral.syringe,1,s));
+		if (tab == CreativeTabs.MISC)
+			for (int s = 0; s < EnumType.values ().length; s++)
+				sub.add (new ItemStack (Viral.syringe,1,s));
 	}
 
 	@Override
