@@ -12,7 +12,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import wurmatron.viral.common.capabilities.IViral;
 import wurmatron.viral.common.capabilities.ViralProvider;
-import wurmatron.viral.common.config.Settings;
+import wurmatron.viral.common.config.ConfigHandler;
 
 import java.util.List;
 import java.util.Random;
@@ -32,9 +32,9 @@ public class ViralInterdictionTorchInverted extends BlockTorch {
 		super.updateTick (world,pos,state,random);
 		world.scheduleBlockUpdate (pos,this,1,1);
 		if (!world.isRemote) {
-			world.setBlockState (pos.north (Settings.radius).east (Settings.radius),Blocks.BEACON.getDefaultState ());
-			world.setBlockState (pos.south (Settings.radius).west (Settings.radius),Blocks.BEACON.getDefaultState ());
-			List <Entity> entities = world.getEntitiesWithinAABB (Entity.class,new AxisAlignedBB (pos.getX () - Settings.radius,pos.getY () - Settings.radius,pos.getZ () - Settings.radius,pos.getX () + Settings.radius,pos.getY () + Settings.radius,pos.getZ () + Settings.radius));
+			world.setBlockState (pos.north (ConfigHandler.radius).east (ConfigHandler.radius),Blocks.BEACON.getDefaultState ());
+			world.setBlockState (pos.south (ConfigHandler.radius).west (ConfigHandler.radius),Blocks.BEACON.getDefaultState ());
+			List <Entity> entities = world.getEntitiesWithinAABB (Entity.class,new AxisAlignedBB (pos.getX () - ConfigHandler.radius,pos.getY () - ConfigHandler.radius,pos.getZ () - ConfigHandler.radius,pos.getX () + ConfigHandler.radius,pos.getY () + ConfigHandler.radius,pos.getZ () + ConfigHandler.radius));
 			for (Entity e : entities) {
 				if (!(e instanceof EntityPlayer)) {
 					IViral status = e.getCapability (ViralProvider.VIRAL,null);

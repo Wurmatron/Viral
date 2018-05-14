@@ -11,6 +11,7 @@ tile.torchInterdictionInverted.name=Interdiction Torch (Inverted)
 
 # Chat
 chat.cannotCure.name=§cYou cannot create immunity while still influenced by the "Viral".
+chat.collect.name=§cFailed to collect
 
 # Description
 description.filledSyringe.name=Using an Empty Syringe click on an infected mob.

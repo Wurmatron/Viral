@@ -3,7 +3,7 @@ package wurmatron.viral.common.utils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import wurmatron.viral.common.config.Settings;
+import wurmatron.viral.common.config.ConfigHandler;
 import wurmatron.viral.common.reference.Global;
 
 public class LogHandler {
@@ -31,7 +31,7 @@ public class LogHandler {
 	}
 
 	public static void debug (String msg) {
-		if (Settings.debug)
+		if (ConfigHandler.debug)
 			log (Level.INFO,msg);
 	}
 
