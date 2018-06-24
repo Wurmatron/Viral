@@ -8,10 +8,10 @@ import wurmatron.viral.Viral;
 @JEIPlugin
 public class ViralPlugin implements IModPlugin {
 
-	@Override
-	public void register (IModRegistry registry) {
-		registry.addDescription (Viral.syringeFilled,"description.filledSyringe.name");
-		registry.addDescription (Viral.syringeCure,"description.cureSyringe.name");
-		registry.addDescription (Viral.syringeImunity,"description.imunitySyringe.name");
-	}
+  @Override
+  public void register(IModRegistry registry) {
+    registry.addDescription(Viral.syringeFilled, "description.filledSyringe.name");
+    registry.addDescription(Viral.syringeCure, "description.cureSyringe.name");
+    registry.addDescription(Viral.syringeImunity, "description.imunitySyringe.name");
+  }
 }

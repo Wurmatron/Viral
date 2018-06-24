@@ -1,6 +1,9 @@
 package wurmatron.viral.common.event;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
@@ -27,10 +30,6 @@ import wurmatron.viral.common.capabilities.IViral;
 import wurmatron.viral.common.capabilities.ViralProvider;
 import wurmatron.viral.common.config.ConfigHandler;
 import wurmatron.viral.common.utils.LogHandler;
-
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Random;
 
 public class ViralEventHandler {
 
@@ -59,17 +58,25 @@ public class ViralEventHandler {
     if (status.status() == 1) {
       if (ConfigHandler.particles > 0) {
         if (ConfigHandler.particles == 1 && counter == 10) {
-          e.getEntityLiving().world
-              .spawnParticle(EnumParticleTypes.DRAGON_BREATH, e.getEntityLiving().posX,
-                  e.getEntityLiving().posY, e.getEntityLiving().posZ,
+          e.getEntityLiving()
+              .world
+              .spawnParticle(
+                  EnumParticleTypes.DRAGON_BREATH,
+                  e.getEntityLiving().posX,
+                  e.getEntityLiving().posY,
+                  e.getEntityLiving().posZ,
                   ((rand.nextDouble() - 0.5D) * (double) e.getEntityLiving().width) / 5,
                   (rand.nextDouble() * (double) e.getEntityLiving().height) / 5,
                   ((rand.nextDouble() - 0.5D) * (double) e.getEntityLiving().width) / 5);
           counter = 0;
         } else if (ConfigHandler.particles == 2) {
-          e.getEntityLiving().world
-              .spawnParticle(EnumParticleTypes.DRAGON_BREATH, e.getEntityLiving().posX,
-                  e.getEntityLiving().posY, e.getEntityLiving().posZ,
+          e.getEntityLiving()
+              .world
+              .spawnParticle(
+                  EnumParticleTypes.DRAGON_BREATH,
+                  e.getEntityLiving().posX,
+                  e.getEntityLiving().posY,
+                  e.getEntityLiving().posZ,
                   ((rand.nextDouble() - 0.5D) * (double) e.getEntityLiving().width) / 5,
                   (rand.nextDouble() * (double) e.getEntityLiving().height) / 5,
                   ((rand.nextDouble() - 0.5D) * (double) e.getEntityLiving().width) / 5);
@@ -82,9 +89,13 @@ public class ViralEventHandler {
         spreadViral(e.getEntityLiving());
       }
       if (!(e.getEntityLiving() instanceof EntityAnimal)) {
-        e.getEntityLiving().getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(
-            e.getEntityLiving().getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH)
-                .getBaseValue() * 2);
+        e.getEntityLiving()
+            .getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH)
+            .setBaseValue(
+                e.getEntityLiving()
+                        .getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH)
+                        .getBaseValue()
+                    * 2);
         e.getEntityLiving().addPotionEffect(new PotionEffect(Potion.getPotionById(5), 100));
         e.getEntityLiving().addPotionEffect(new PotionEffect(Potion.getPotionById(11), 100));
         e.getEntityLiving().addPotionEffect(new PotionEffect(Potion.getPotionById(1), 100, 2));
@@ -102,8 +113,9 @@ public class ViralEventHandler {
   }
 
   private void spreadViral(EntityLivingBase entity) {
-    List<Entity> area = entity.world.getEntitiesWithinAABBExcludingEntity(entity,
-        entity.getEntityBoundingBox().expand(radius, radius, radius));
+    List<Entity> area =
+        entity.world.getEntitiesWithinAABBExcludingEntity(
+            entity, entity.getEntityBoundingBox().expand(radius, radius, radius));
     if (area.size() > 0) {
       for (Entity e : area) {
         if (!(e instanceof EntityPlayer) && e instanceof EntityLivingBase) {
@@ -116,8 +128,14 @@ public class ViralEventHandler {
             if (status.status() == 0) {
               status.set(1);
               LogHandler.debug(
-                  "Infected " + ent.getDisplayName().getUnformattedComponentText() + " X: "
-                      + ent.posX + " , Y: " + ent.posY + " , Z: " + ent.posZ);
+                  "Infected "
+                      + ent.getDisplayName().getUnformattedComponentText()
+                      + " X: "
+                      + ent.posX
+                      + " , Y: "
+                      + ent.posY
+                      + " , Z: "
+                      + ent.posZ);
             }
           }
         }
@@ -135,26 +153,38 @@ public class ViralEventHandler {
   @SubscribeEvent
   public void onRenderEntity(RenderLivingEvent.Pre e) {
     if (layers.size() <= 0 || !layers.contains(e.getEntity())) {
-      e.getRenderer().addLayer(new LayerRenderer() {
-        @Override
-        public void doRenderLayer(EntityLivingBase entitylivingbaseIn, float limbSwing,
-            float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw,
-            float headPitch, float scale) {
-          GlStateManager.pushMatrix();
-          GlStateManager.rotate(180, 0, 0, 1);
-          GlStateManager.scale(0.6, 0.6, 0.6);
-          GlStateManager.rotate((ageInTicks) / 20.0F * (180F / (float) Math.PI), 0.0F, 1.0F, 0.0F);
-          GlStateManager.translate(0, (e.getEntity().height - 0.3) + (Math.sin(ageInTicks/20))/3, 0);
-          Minecraft.getMinecraft().getRenderItem()
-              .renderItem(new ItemStack(Items.WHEAT), ItemCameraTransforms.TransformType.FIXED);
-          GlStateManager.popMatrix();
-        }
+      e.getRenderer()
+          .addLayer(
+              new LayerRenderer() {
+                @Override
+                public void doRenderLayer(
+                    EntityLivingBase entitylivingbaseIn,
+                    float limbSwing,
+                    float limbSwingAmount,
+                    float partialTicks,
+                    float ageInTicks,
+                    float netHeadYaw,
+                    float headPitch,
+                    float scale) {
+                  GlStateManager.pushMatrix();
+                  GlStateManager.rotate(180, 0, 0, 1);
+                  GlStateManager.scale(0.6, 0.6, 0.6);
+                  GlStateManager.rotate(
+                      (ageInTicks) / 20.0F * (180F / (float) Math.PI), 0.0F, 1.0F, 0.0F);
+                  GlStateManager.translate(
+                      0, (e.getEntity().height - 0.3) + (Math.sin(ageInTicks / 20)) / 3, 0);
+                  Minecraft.getMinecraft()
+                      .getRenderItem()
+                      .renderItem(
+                          new ItemStack(Items.WHEAT), ItemCameraTransforms.TransformType.FIXED);
+                  GlStateManager.popMatrix();
+                }
 
-        @Override
-        public boolean shouldCombineTextures() {
-          return true;
-        }
-      });
+                @Override
+                public boolean shouldCombineTextures() {
+                  return true;
+                }
+              });
       layers.add(e.getEntity());
     }
   }

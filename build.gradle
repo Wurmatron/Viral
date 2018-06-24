@@ -10,6 +10,11 @@ buildscript {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
+
+plugins {
+    id 'com.diffplug.gradle.spotless' version '3.4.0'
+}
+
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 version = "${mod_version}"
@@ -36,6 +41,16 @@ repositories {
 dependencies {
 	deobfCompile "mezz.jei:jei_1.12.1:${jei_version}:api"
 	runtime "mezz.jei:jei_1.12.1:${jei_version}"
+}
+
+spotless {
+    java {
+        removeUnusedImports()
+        indentWithSpaces()
+        trimTrailingWhitespace()
+        endWithNewline()
+        googleJavaFormat()
+    }
 }
 
 processResources

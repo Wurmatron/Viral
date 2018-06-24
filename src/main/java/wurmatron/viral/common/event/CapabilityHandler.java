@@ -9,11 +9,11 @@ import wurmatron.viral.common.reference.Global;
 
 public class CapabilityHandler {
 
-	private static final ResourceLocation VIRAL = new ResourceLocation (Global.MODID,"viral");
+  private static final ResourceLocation VIRAL = new ResourceLocation(Global.MODID, "viral");
 
-	@SubscribeEvent
-	public void attachCapability (AttachCapabilitiesEvent event) {
-		if (event.getObject () instanceof EntityLivingBase)
-			event.addCapability (VIRAL,new ViralProvider ());
-	}
+  @SubscribeEvent
+  public void attachCapability(AttachCapabilitiesEvent event) {
+    if (event.getObject() instanceof EntityLivingBase)
+      event.addCapability(VIRAL, new ViralProvider());
+  }
 }
