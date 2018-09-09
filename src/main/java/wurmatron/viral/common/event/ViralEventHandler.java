@@ -1,31 +1,21 @@
 package wurmatron.viral.common.event;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import wurmatron.viral.common.capabilities.IViral;
 import wurmatron.viral.common.capabilities.ViralProvider;
 import wurmatron.viral.common.config.ConfigHandler;
@@ -145,47 +135,5 @@ public class ViralEventHandler {
 
   private int getChancePercentage() {
     return (int) (ConfigHandler.chance * 100);
-  }
-
-  @SideOnly(Side.CLIENT)
-  private static List<Entity> layers = new ArrayList<>();
-
-  @SubscribeEvent
-  public void onRenderEntity(RenderLivingEvent.Pre e) {
-    if (layers.size() <= 0 || !layers.contains(e.getEntity())) {
-      e.getRenderer()
-          .addLayer(
-              new LayerRenderer() {
-                @Override
-                public void doRenderLayer(
-                    EntityLivingBase entitylivingbaseIn,
-                    float limbSwing,
-                    float limbSwingAmount,
-                    float partialTicks,
-                    float ageInTicks,
-                    float netHeadYaw,
-                    float headPitch,
-                    float scale) {
-                  GlStateManager.pushMatrix();
-                  GlStateManager.rotate(180, 0, 0, 1);
-                  GlStateManager.scale(0.6, 0.6, 0.6);
-                  GlStateManager.rotate(
-                      (ageInTicks) / 20.0F * (180F / (float) Math.PI), 0.0F, 1.0F, 0.0F);
-                  GlStateManager.translate(
-                      0, (e.getEntity().height - 0.3) + (Math.sin(ageInTicks / 20)) / 3, 0);
-                  Minecraft.getMinecraft()
-                      .getRenderItem()
-                      .renderItem(
-                          new ItemStack(Items.WHEAT), ItemCameraTransforms.TransformType.FIXED);
-                  GlStateManager.popMatrix();
-                }
-
-                @Override
-                public boolean shouldCombineTextures() {
-                  return true;
-                }
-              });
-      layers.add(e.getEntity());
-    }
   }
 }
