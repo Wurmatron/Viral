@@ -1,0 +1,29 @@
+{
+  "type": "forge:ore_shapeless",
+  "ingredients": [
+    {
+      "type": "minecraft:item_nbt",
+      "item": "viral:glowstick",
+      "data": 0,
+      "nbt": "{time:180}"
+    }, {
+      "item": "viral:mobMash"
+    }, {
+      "item": "viral:mobMash"
+    }, {
+      "item": "viral:mobMash"
+    }, {
+      "item": "viral:mobMash"
+    }, {
+      "item": "viral:mobMash"
+    }, {
+      "item": "viral:mobMash"
+    }
+  ],
+  "result": {
+    "type": "minecraft:item_nbt",
+    "item": "viral:glowstick",
+    "data": 0,
+    "nbt": "{time:300}"
+  }
+}

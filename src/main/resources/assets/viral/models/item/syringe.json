@@ -9,23 +9,6 @@
 				"textures": {
 					"layer0": "viral:items/emptySyringe"
 				}
-			},
-			"1": {
-				"textures": {
-					"layer0": "testmod3:items/variants.b"
-				}
-			},
-			"2": {
-				"textures": {
-					"layer0": "testmod3:items/variants.c"
-				}
-			},
-			"3": {
-				"textures": {
-					"layer0": "testmod3:items/variants.b"
-				}
 			}
-		
-		}
 	}
 }

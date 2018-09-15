@@ -1,0 +1,26 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "IGI",
+    "IXI",
+    "IGI"
+  ],
+  "key": {
+    "G": {
+      "type": "forge:ore_dict",
+      "ore": "blockGlass"
+    },
+    "I": {
+      "type": "forge:ore_dict",
+      "ore": "ingotIron"
+    },
+    "X": {
+      "type": "forge:ore_dict",
+      "ore": "dustGlowstone"
+    }
+  },
+  "result": {
+    "item": "viral:glowstickBroken",
+    "data": 0
+  }
+}

@@ -1,5 +1,6 @@
 package wurmatron.viral;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -19,7 +20,10 @@ import wurmatron.viral.common.capabilities.ViralStorage;
 import wurmatron.viral.common.event.CapabilityHandler;
 import wurmatron.viral.common.event.InteractEvent;
 import wurmatron.viral.common.event.ViralEventHandler;
+import wurmatron.viral.common.items.Glowstick;
+import wurmatron.viral.common.items.ItemBasic;
 import wurmatron.viral.common.items.ItemSyringe;
+import wurmatron.viral.common.potion.RepelPotion;
 import wurmatron.viral.common.proxy.CommonProxy;
 import wurmatron.viral.common.reference.Global;
 import wurmatron.viral.common.reference.Registry;
@@ -28,15 +32,22 @@ import wurmatron.viral.common.utils.LogHandler;
 @Mod(modid = Global.MODID, name = Global.NAME, version = Global.VERSION)
 public class Viral {
 
+  // Items
   public static final ItemSyringe syringe = new ItemSyringe();
   public static final ItemStack syringeEmpty = new ItemStack(syringe, 1, 0);
   public static final ItemStack syringeFilled = new ItemStack(syringe, 1, 1);
   public static final ItemStack syringeCure = new ItemStack(syringe, 1, 2);
   public static final ItemStack syringeImunity = new ItemStack(syringe, 1, 3);
+  public static final Glowstick glowstick = new Glowstick();
+  public static final Item glowstickBroken = new ItemBasic("glowstickBroken").setMaxStackSize(4);
+  public static final Item mobMash = new ItemBasic("mobMash");
+  // Blocks
   public static final ViralInterdictionTorch torchInterdiction = new ViralInterdictionTorch();
   public static final ViralInterdictionTorchInverted torchInterdictionInverted =
       new ViralInterdictionTorchInverted();
   public static final ViralShield shield = new ViralShield();
+  // Potions
+  public static RepelPotion repel = new RepelPotion(false, 0);
 
   @Mod.Instance(Global.MODID)
   public static Viral instance;
@@ -49,10 +60,15 @@ public class Viral {
     Registry.registerItem(syringe, syringe.getUnlocalizedName().substring(5));
     Registry.registerBlock(torchInterdiction, torchInterdiction.getUnlocalizedName().substring(5));
     Registry.registerBlock(
-        torchInterdictionInverted, torchInterdictionInverted.getUnlocalizedName().substring(5));
-    Registry.registerBlock(shield, shield.getUnlocalizedName().substring(5));
+        torchInterdictionInverted, "torchInterdictionInverted");
+    Registry.registerBlock(shield,"shield");
+    Registry.registerItem(glowstick, "glowstick");
+    Registry.registerItem(glowstickBroken, "glowstickBroken");
+    Registry.registerItem(mobMash, "mobMash");
+    Registry.registerPotion(repel);
     MinecraftForge.EVENT_BUS.register(new Registry());
     MinecraftForge.EVENT_BUS.register(new ClientProxy());
+    MinecraftForge.EVENT_BUS.register(new Glowstick());
   }
 
   @Mod.EventHandler
