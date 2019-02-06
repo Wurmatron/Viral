@@ -18,6 +18,7 @@ import wurmatron.viral.common.capabilities.IViral;
 import wurmatron.viral.common.capabilities.ViralData;
 import wurmatron.viral.common.capabilities.ViralStorage;
 import wurmatron.viral.common.event.CapabilityHandler;
+import wurmatron.viral.common.event.GlowStickEvents;
 import wurmatron.viral.common.event.InteractEvent;
 import wurmatron.viral.common.event.ViralEventHandler;
 import wurmatron.viral.common.items.Glowstick;
@@ -59,16 +60,15 @@ public class Viral {
   public void onPreInit(FMLPreInitializationEvent e) {
     Registry.registerItem(syringe, syringe.getUnlocalizedName().substring(5));
     Registry.registerBlock(torchInterdiction, torchInterdiction.getUnlocalizedName().substring(5));
-    Registry.registerBlock(
-        torchInterdictionInverted, "torchInterdictionInverted");
-    Registry.registerBlock(shield,"shield");
+    Registry.registerBlock(torchInterdictionInverted, "torchInterdictionInverted");
+    Registry.registerBlock(shield, "shield");
     Registry.registerItem(glowstick, "glowstick");
     Registry.registerItem(glowstickBroken, "glowstickBroken");
     Registry.registerItem(mobMash, "mobMash");
     Registry.registerPotion(repel);
     MinecraftForge.EVENT_BUS.register(new Registry());
     MinecraftForge.EVENT_BUS.register(new ClientProxy());
-    MinecraftForge.EVENT_BUS.register(new Glowstick());
+    MinecraftForge.EVENT_BUS.register(new GlowStickEvents());
   }
 
   @Mod.EventHandler

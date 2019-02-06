@@ -45,13 +45,13 @@ public class ClientProxy extends CommonProxy {
         Registry.blockItems.get(Viral.shield),
         0,
         new ModelResourceLocation(Global.MODID + ":shield", "inventory"));
-    ModelLoader.setCustomModelResourceLocation(Viral.glowstick, 0,
-        new ModelResourceLocation(Global.MODID + ":glowstick"));
-    ModelLoader.setCustomModelResourceLocation(Viral.glowstick, 1,
-        new ModelResourceLocation(Global.MODID + ":glowstick_active"));
-    ModelLoader.setCustomModelResourceLocation(Viral.glowstickBroken, 0,
-        new ModelResourceLocation(Global.MODID + ":glowstick_broken"));
-    ModelLoader.setCustomModelResourceLocation(Viral.mobMash, 0,
-        new ModelResourceLocation(Global.MODID + ":mobmash"));
+    ModelLoader.setCustomModelResourceLocation(
+        Viral.glowstick, 0, new ModelResourceLocation(Global.MODID + ":glowstick"));
+    ModelLoader.setCustomModelResourceLocation(
+        Viral.glowstick, 1, new ModelResourceLocation(Global.MODID + ":glowstick_active"));
+    ModelLoader.setCustomModelResourceLocation(
+        Viral.glowstickBroken, 0, new ModelResourceLocation(Global.MODID + ":glowstick_broken"));
+    ModelLoader.setCustomModelResourceLocation(
+        Viral.mobMash, 0, new ModelResourceLocation(Global.MODID + ":mobmash"));
   }
 }

@@ -3,7 +3,6 @@ package wurmatron.viral.common.items;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 
-
 public class ItemBasic extends Item {
 
   private String name;
@@ -16,6 +15,6 @@ public class ItemBasic extends Item {
 
   @Override
   public String getUnlocalizedName() {
-      return "item." + name + ".name";
+    return "item." + name + ".name";
   }
 }

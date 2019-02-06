@@ -11,8 +11,8 @@ import wurmatron.viral.common.reference.Global;
 
 public class RepelPotion extends Potion {
 
-  private final ResourceLocation iconTexture = new ResourceLocation(Global.MODID,
-      "textures/gui/repel.png");
+  private final ResourceLocation iconTexture =
+      new ResourceLocation(Global.MODID, "textures/gui/repel.png");
 
   public RepelPotion(boolean isBadEffectIn, int liquidColor) {
     super(isBadEffectIn, liquidColor);
