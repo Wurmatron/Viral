@@ -6,13 +6,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import wurmatron.viral.common.config.ConfigHolder;
+import wurmatron.viral.common.event.GlowStickEvents;
 import wurmatron.viral.common.items.Glowstick;
 import wurmatron.viral.common.items.ItemBasic;
 import wurmatron.viral.common.items.ItemSyringe;
@@ -32,20 +36,28 @@ public class Viral {
 
   public static final ItemStack syringeFilled = new ItemStack(syringe, 1);
   public static final ItemStack syringeCure = new ItemStack(syringe, 1);
-  public static final ItemStack syringeImunity = new ItemStack(syringe, 1);
+  public static final ItemStack syringeImmunity = new ItemStack(syringe, 1);
   public static final Glowstick glowstick = new Glowstick();
   public static final Item glowstickBroken = new ItemBasic(new Properties().maxStackSize(4), "glowstick_broken");
   public static final Item mobMash = new ItemBasic(new Properties(), "mob_mash");
 
   public Viral() {
+    // Basic Setup
     LOGGER.info("Loading Viral " + Global.VERSION);
     FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
     FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupClient);
     MinecraftForge.EVENT_BUS.register(this);
+    // Item Setup
+    syringeFilled.setDamage(1);
+    syringeCure.setDamage(2);
+    syringeImmunity.setDamage(3);
+    MinecraftForge.EVENT_BUS.register(new GlowStickEvents());
+    // Config
+    ModLoadingContext loadContext = ModLoadingContext.get();
+    loadContext.registerConfig(Type.CLIENT, ConfigHolder.CLIENT_SPEC);
+    loadContext.registerConfig(Type.SERVER, ConfigHolder.SERVER_SPEC);
+    //  Potion Setup
     Registry.potions.add(new RepelPotion(new EffectInstance(new RepelEffect())));
-    syringeCure.setDamage(1);
-    syringeImunity.setDamage(2);
-    syringeImunity.setDamage(3);
   }
 
   public void setup(FMLCommonSetupEvent e) {

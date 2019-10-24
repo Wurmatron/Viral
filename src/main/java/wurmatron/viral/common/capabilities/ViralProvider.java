@@ -1,35 +1,51 @@
-//package wurmatron.viral.common.capabilities;
+package wurmatron.viral.common.capabilities;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import net.minecraft.nbt.INBT;
+import net.minecraft.util.Direction;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import net.minecraftforge.common.util.LazyOptional;
+
+public class ViralProvider implements ICapabilitySerializable<INBT> {
+
+  @CapabilityInject(IViral.class)
+  public static final Capability<IViral> VIRAL = null;
+
+  @Nonnull
+  @Override
+  public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+    return null;
+  }
+
+  @Override
+  public INBT serializeNBT() {
+    return null;
+  }
+
+  @Override
+  public void deserializeNBT(INBT nbt) {
+
+  }
+
 //
-//import net.minecraft.nbt.NBTBase;
-//import net.minecraft.util.EnumFacing;
-//import net.minecraftforge.common.capabilities.Capability;
-//import net.minecraftforge.common.capabilities.CapabilityInject;
-//import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+//  private final LazyOptional<IViral> instance = LazyOptional.of(new ViralData());
 //
-//public class ViralProvider implements ICapabilitySerializable<NBTBase> {
-//
-//  @CapabilityInject(IViral.class)
-//  public static final Capability<IViral> VIRAL = null;
-//
-//  private IViral instance = VIRAL.getDefaultInstance();
-//
+//  @Nonnull
 //  @Override
-//  public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-//    return capability == VIRAL;
+//  public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap) {
+//    return cap == VIRAL ? LazyOptional.of(VIRAL.ca) : LazyOptional.empty();
 //  }
 //
 //  @Override
-//  public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-//    return capability == VIRAL ? VIRAL.cast(instance) : null;
-//  }
-//
-//  @Override
-//  public NBTBase serializeNBT() {
+//  public INBT serializeNBT() {
 //    return VIRAL.getStorage().writeNBT(VIRAL, instance, null);
 //  }
 //
 //  @Override
-//  public void deserializeNBT(NBTBase nbt) {
+//  public void deserializeNBT(INBT nbt) {
 //    VIRAL.getStorage().readNBT(VIRAL, instance, null, nbt);
 //  }
-//}
+}
