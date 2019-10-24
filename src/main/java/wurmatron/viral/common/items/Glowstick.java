@@ -1,111 +1,100 @@
 package wurmatron.viral.common.items;
 
+
 import java.util.List;
 import javax.annotation.Nullable;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.item.ItemUseContext;
+import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import wurmatron.viral.Viral;
+import wurmatron.viral.common.potion.RepelEffect;
 
 public class Glowstick extends Item {
 
   public Glowstick() {
-    setCreativeTab(CreativeTabs.MISC);
-    setHasSubtypes(true);
-    setUnlocalizedName("glowstick");
-    setMaxStackSize(1);
+    super(new Properties().maxStackSize(1).group(ItemGroup.MISC));
+    setRegistryName("glowstick");
   }
 
   @Override
-  public void onCreated(ItemStack stack, World world, EntityPlayer player) {
-    super.onCreated(stack, world, player);
-    NBTTagCompound data = new NBTTagCompound();
-    data.setInteger("time", 0);
-    stack.setTagCompound(data);
+  public ActionResultType onItemUseFirst(ItemStack stack, ItemUseContext context) {
+    CompoundNBT data = new CompoundNBT();
+    data.putInt("time", 0);
+    stack.setTag(data);
+    return ActionResultType.SUCCESS;
   }
 
   @Override
-  public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+  public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
     ItemStack stack = player.getHeldItem(hand);
-    if (stack.hasTagCompound()
-        && stack.getTagCompound().hasKey("time")
-        && stack.getTagCompound().getInteger("time") > 0) {
-      stack.setItemDamage(1);
+    if (stack.hasTag() && stack.getTag().contains("time") && stack.getTag().getInt("time") > 0) {
+      stack.damageItem(1, player, (playerEntity) -> {
+      });
     } else {
-      NBTTagCompound data = new NBTTagCompound();
-      data.setInteger("time", 100);
-      stack.setTagCompound(data);
+      CompoundNBT data = new CompoundNBT();
+      data.putInt("time", 100);
+      stack.setTag(data);
     }
     return super.onItemRightClick(world, player, hand);
   }
 
+
   @Override
   public void addInformation(
-      ItemStack stack, @Nullable World world, List<String> tip, ITooltipFlag flag) {
+      ItemStack stack, @Nullable World world, List<ITextComponent> tip, ITooltipFlag flag) {
     super.addInformation(stack, world, tip, flag);
-    if (stack.hasTagCompound() && stack.getTagCompound().hasKey("time")) {
-      tip.add(
-          I18n.translateToLocal("tooltip.timeRemaining.name")
-              .replaceAll("%TIME%", "" + stack.getTagCompound().getInteger("time")));
+    if (stack.hasTag() && stack.getTag().contains("time")) {
+      tip.add(new StringTextComponent(new TranslationTextComponent("tooltip.timeRemaining.name").getFormattedText().replaceAll("%TIME%",
+          stack.getTag().getInt("time") + "")));
     }
   }
 
   @Override
-  public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
-    if (tab == this.getCreativeTab()) {
+  public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
+    if (group == ItemGroup.MISC) {
       items.add(create(180));
       items.add(create(300));
       items.add(create(600));
     }
+    super.fillItemGroup(group, items);
   }
 
   public ItemStack create(int time) {
-    ItemStack glowstick = new ItemStack(this, 1, 0);
-    NBTTagCompound nbt = new NBTTagCompound();
-    nbt.setInteger("time", time);
-    glowstick.setTagCompound(nbt);
+    ItemStack glowstick = new ItemStack(this, 1);
+    CompoundNBT nbt = new CompoundNBT();
+    nbt.putInt("time", time);
+    glowstick.setTag(nbt);
     return glowstick;
   }
 
   @Override
-  public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean isSelected) {
-    super.onUpdate(stack, world, entity, slot, isSelected);
-    if (entity instanceof EntityPlayer) {
-      EntityPlayer player = (EntityPlayer) entity;
-      if (stack.getItemDamage() == 1
-          && stack.hasTagCompound()
-          && stack.getTagCompound().hasKey("time")
-          && stack.getTagCompound().getInteger("time") > 0) {
-        int timeLeft = stack.getTagCompound().getInteger("time");
-        if (timeLeft > 0) {
-          if (!entity.world.isRemote && entity.world.getWorldTime() % 20 == 0) {
-            stack
-                .getTagCompound()
-                .setInteger("time", stack.getTagCompound().getInteger("time") - 1);
-          }
-          player.addPotionEffect(new PotionEffect(Viral.repel, 100, 0));
+  public void onUsingTick(ItemStack stack, LivingEntity player, int count) {
+    if (stack.getDamage() == 1 && stack.hasTag() && stack.getTag().contains("time") & stack.getTag().getInt("time") > 0) {
+      int timeLeft = stack.getTag().getInt("time");
+      if (timeLeft > 0) {
+        if (!player.world.isRemote && player.world.getDayTime() % 20 == 0) {
+          stack.getTag().putInt("time", stack.getTag().getInt("time") - 1);
         }
-      } else if (stack.hasTagCompound()
-          && stack.getTagCompound().hasKey("time")
-          && stack.getTagCompound().getInteger("time") <= 0) {
-        player.inventory.deleteStack(stack);
-        player.inventory.addItemStackToInventory(new ItemStack(Viral.glowstickBroken));
+        player.addPotionEffect(new EffectInstance(new RepelEffect()));
+      } else if (stack.hasTag() && stack.getTag().getInt("time") <= 0) {
+        PlayerEntity playerLiving = (PlayerEntity) player;
+        playerLiving.inventory.deleteStack(stack);
+        playerLiving.inventory.addItemStackToInventory(new ItemStack(Items.DIAMOND));
       }
     }
-  }
-
-  @Override
-  public String getUnlocalizedName() {
-    return "item.glowstick.name";
   }
 }

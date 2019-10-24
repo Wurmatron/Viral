@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import net.minecraft.block.Block;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.item.Item.Properties;
 import net.minecraft.potion.Potion;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class Registry {
 
@@ -19,14 +20,12 @@ public class Registry {
 
   public static void registerItem(Item item, String registryName) {
     item.setRegistryName(registryName);
-    item.setUnlocalizedName(registryName);
     items.add(item);
   }
 
   public static void registerBlock(Block block, String registryName) {
     block.setRegistryName(registryName);
-    block.setUnlocalizedName(registryName);
-    ItemBlock itemBlock = new ItemBlock(block);
+    BlockItem itemBlock = new BlockItem(block, new Properties());
     itemBlock.setRegistryName(registryName);
     blocks.add(block);
     blockItems.put(block, itemBlock);

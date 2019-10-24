@@ -1,19 +1,19 @@
 package wurmatron.viral.common.event;
 
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import wurmatron.viral.Viral;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import wurmatron.viral.common.potion.RepelEffect;
 
 public class GlowStickEvents {
 
   @SubscribeEvent
   public void onEntitySetTarget(LivingSetAttackTargetEvent e) {
-    if (e.getTarget() != null && e.getTarget() instanceof EntityPlayer) {
-      EntityPlayer player = (EntityPlayer) e.getTarget();
-      if (player.isPotionActive(Viral.repel)) {
-        ((EntityLiving) e.getEntity()).setAttackTarget(null);
+    if (e.getTarget() != null && e.getTarget() instanceof PlayerEntity) {
+      PlayerEntity player = (PlayerEntity) e.getTarget();
+      if (player.isPotionActive(new RepelEffect())) {
+        ((LivingEntity) e.getEntity()).setRevengeTarget(null);
       }
     }
   }

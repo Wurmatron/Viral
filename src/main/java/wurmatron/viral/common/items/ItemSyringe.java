@@ -1,34 +1,42 @@
 package wurmatron.viral.common.items;
 
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import wurmatron.viral.Viral;
 
 public class ItemSyringe extends Item {
 
   public ItemSyringe() {
-    setCreativeTab(CreativeTabs.MISC);
-    setHasSubtypes(true);
-    setUnlocalizedName("syringe");
-    setMaxStackSize(1);
+    super(new Properties().group(ItemGroup.MISC).maxStackSize(1));
+    setRegistryName("syringe");
   }
 
   @Override
-  public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> sub) {
-    if (tab == CreativeTabs.MISC)
-      for (int s = 0; s < EnumType.values().length; s++)
-        sub.add(new ItemStack(Viral.syringe, 1, s));
+  public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
+    super.fillItemGroup(group, items);
+    if (group == ItemGroup.MISC) {
+      for (int s = 0; s < EnumType.values().length; s++) {
+        ItemStack stack = new ItemStack(Viral.syringe, 1);
+        stack.setCount(s);
+        items.add(stack);
+      }
+    }
   }
 
+
   @Override
-  public String getUnlocalizedName(ItemStack stack) {
-    if (stack.getItemDamage() < EnumType.values().length)
-      return "item.syringe" + EnumType.values()[stack.getItemDamage()].name;
-    return "item.syringe.name";
+  public ITextComponent getDisplayName(ItemStack stack) {
+    if (stack.getDamage() < EnumType.values().length) {
+      return new TranslationTextComponent("item.syringe" + EnumType.values()[stack.getDamage()].name);
+    }
+    return new TranslationTextComponent("item.syringe.name");
   }
+
 
   public enum EnumType implements IStringSerializable {
     EMPTY(0, "Empty"),
