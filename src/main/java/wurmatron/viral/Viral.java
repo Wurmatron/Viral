@@ -34,8 +34,8 @@ public class Viral {
   public static final ItemStack syringeCure = new ItemStack(syringe, 1);
   public static final ItemStack syringeImunity = new ItemStack(syringe, 1);
   public static final Glowstick glowstick = new Glowstick();
-  public static final Item glowstickBroken = new ItemBasic(new Properties().maxStackSize(4), "glowstickBroken");
-  public static final Item mobMash = new ItemBasic(new Properties(), "mobMash");
+  public static final Item glowstickBroken = new ItemBasic(new Properties().maxStackSize(4), "glowstick_broken");
+  public static final Item mobMash = new ItemBasic(new Properties(), "mob_mash");
 
   public Viral() {
     LOGGER.info("Loading Viral " + Global.VERSION);

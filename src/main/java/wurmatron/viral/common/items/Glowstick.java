@@ -52,7 +52,6 @@ public class Glowstick extends Item {
     return super.onItemRightClick(world, player, hand);
   }
 
-
   @Override
   public void addInformation(
       ItemStack stack, @Nullable World world, List<ITextComponent> tip, ITooltipFlag flag) {
