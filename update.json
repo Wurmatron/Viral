@@ -1,0 +1,13 @@
+{
+  "homepage": "https://www.curseforge.com/minecraft/mc-mods/viral",
+  "1.15.2": {
+    "<modversion>": "<changelog for this version>", 
+    // List all versions of your mod for the given Minecraft version, along with their changelogs
+  },
+  "promos": {
+    "<mcversion>-latest": "<modversion>",
+    // Declare the latest "bleeding-edge" version of your mod for the given Minecraft version
+    "<mcversion>-recommended": "<modversion>",
+    // Declare the latest "stable" version of your mod for the given Minecraft version
+  }
+}
