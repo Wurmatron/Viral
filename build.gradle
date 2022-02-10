@@ -1,74 +1,80 @@
 buildscript {
     repositories {
-        jcenter()
-        maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
+        maven { url = 'https://maven.minecraftforge.net/' }
+        mavenCentral()
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:3.+'
     }
 }
+        
+apply plugin: 'net.minecraftforge.gradle'
 
-plugins {
-    id 'com.diffplug.gradle.spotless' version '3.4.0'
-}
+apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
 
-apply plugin: 'net.minecraftforge.gradle.forge'
+version = '0.2.5'
+group = 'io.wurmatron.viral' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = 'Viral'
 
-version = "${mod_version}"
-group= package_group
-archivesBaseName = mod_name
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 minecraft {
-    version = "${mc_version}-${forge_version}"
-    runDir = "run"
-    mappings = "${mcp_map}"
-	  replace "@VERSION@", project.version
-    replaceIn "Global.java"
+    mappings channel: 'snapshot', version: '20171003-1.12'
+    runs {
+        client {
+            workingDirectory project.file('run')
+
+            // Recommended logging data for a userdev environment
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
+        }
+
+        server {
+
+            // Recommended logging data for a userdev environment
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
+        }
+    }
 }
 
 repositories {
-	maven {
-		url = "http://dvs1.progwml6.com/files/maven"
-	}
+    maven {
+        // location of the maven that hosts JEI files
+        name = "Progwml6 maven"
+        url = "https://dvs1.progwml6.com/files/maven/"
+    }
+    maven {
+        // location of a maven mirror for JEI files, as a fallback
+        name = "ModMaven"
+        url = "https://modmaven.dev"
+    }
 }
 
 dependencies {
-	deobfCompile "mezz.jei:jei_1.12.1:${jei_version}:api"
-	runtime "mezz.jei:jei_1.12.1:${jei_version}"
+    minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2859'
+
+    compileOnly fg.deobf("mezz.jei:jei_1.12.2:${jei_version}:api")
+    runtimeOnly fg.deobf("mezz.jei:jei_1.12.2:${jei_version}")
 }
 
-spotless {
-    java {
-        removeUnusedImports()
-        indentWithSpaces()
-        trimTrailingWhitespace()
-        endWithNewline()
-        googleJavaFormat()
+jar {
+    manifest {
+        attributes([
+            "Specification-Title": "Viral",
+            "Specification-Vendor": "Wurmatrob",
+            "Specification-Version": "1",
+            "Implementation-Title": project.name,
+            "Implementation-Version": "${version}",
+            "Implementation-Vendor" :"Wurmatron",
+            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
     }
 }
 
-processResources
-{
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
-
-	from(sourceSets.main.resources.srcDirs) {
-        exclude '**/*.info'
-        exclude '**/*.properties'
-    }
-
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
-}
+jar.finalizedBy('reobfJar')
