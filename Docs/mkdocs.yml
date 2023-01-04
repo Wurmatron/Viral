@@ -1,0 +1,13 @@
+site_name: Mining Goggles Wiki
+site_url: https://wiki.wurmatron.io/viral
+repo_url: https://www.curseforge.com/minecraft/mc-mods/viral
+repo_name: Viral
+theme:
+  name: material
+nav:
+  - 'Guides':
+  - 'Links':
+    - 'CurseForge': 'https://www.curseforge.com/minecraft/mc-mods/viral'
+    - 'Github': 'https://github.com/Wurmatron/Viral/'
+    - 'Issues': 'https://github.com/Wurmatron/Viral/issues'
+    - 'Ci / Nightly Builds': 'https://ci.wurmatron.io/job/Minecraft/job/Viral/'
