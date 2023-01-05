@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://www.curseforge.com/minecraft/mc-mods/viral">
-    <img src="https://github.com/Wurmatron/Viral/blob/master/Docs/docs/img/favicon.ico" alt="Viral logo" width="200" height="200">
+    <img src="https://raw.githubusercontent.com/Wurmatron/Viral/1.16/Docs/docs/img/favicon.png" alt="Viral logo" width="200" height="200">
   </a>
 </p>
 
