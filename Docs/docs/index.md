@@ -6,4 +6,7 @@
   *  [Github / Issues](https://github.com/Wurmatron/Viral)
   *  [CI / Nightly Builds](https://ci.wurmatron.io/job/Minecraft/job/Viral/)
 
-## Guides
+## Wiki
+
+  * [Items](items)
+  * [How it Works](how-it-works)
