@@ -1,0 +1,21 @@
+modLoader="javafml"
+loaderVersion="[36,)"
+license="All rights reserved"
+issueTrackerURL="https://github.com/Wurmatron/Viral/issues"
+[[mods]]
+modId="viral"
+version="${file.jarVersion}"
+displayName="Viral"
+#updateJSONURL="https://change.me.example.invalid/updates.json" #optional
+displayURL="https://www.curseforge.com/minecraft/mc-mods/viral"
+logoFile="icon.png"
+credits=""
+authors="Wurmatron"
+description='''
+'''
+[[dependencies.viral]]
+    modId="forge"
+    mandatory=true #mandatory
+    versionRange="[36,)"
+    ordering="NONE"
+    side="BOTH"
