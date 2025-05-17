@@ -1,0 +1,35 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:emerald"
+        },
+        {
+            "item": "viral:mobmash"
+        },
+		        {
+            "item": "viral:mobmash"
+        },
+		{
+            "item": "viral:mobmash"
+        },
+		{
+            "item": "viral:mobmash"
+        },
+		{
+            "item": "viral:mobmash"
+        },
+		{
+            "item": "viral:mobmash"
+        },
+		{
+            "item": "viral:mobmash"
+        },
+		{
+            "item": "viral:mobmash"
+        }
+    ],
+    "result": {
+        "item": "viral:glowstick"
+    }
+}

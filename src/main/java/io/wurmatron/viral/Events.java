@@ -1,24 +1,19 @@
 package io.wurmatron.viral;
 
+import io.wurmatron.viral.common.ConfigHandler;
 import io.wurmatron.viral.common.ViralItems;
+import jdk.nashorn.internal.runtime.regexp.joni.Config;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.entity.ai.brain.schedule.Activity;
-import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.monster.SlimeEntity;
-import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.CowEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
@@ -44,17 +39,19 @@ public class Events {
         for (String tag : entity.getTags())
             if (tag.equals(TAG_IMMUNE))
                 return;
-        // TODO Config
-        int rate = 10;
-        if (spread)
-            rate = 20;
+        int rate = ConfigHandler.COMMON.baseInfectionChance.get();
+        if (ConfigHandler.COMMON.spreadChance.get() > 0 && spread)
+            rate = ConfigHandler.COMMON.spreadChance.get();
         if (isAllowedToBeInfected(entity) && entity.getRandom().nextInt(rate) == 1) {
             entity.addTag(TAG_INFECTED);
         }
     }
 
-    // TODO Config
     public static boolean isAllowedToBeInfected(LivingEntity e) {
+        for(String entity : ConfigHandler.COMMON.blacklistedMobs.get()) {
+            if(e.getEntity().getClass().getSimpleName().matches(entity))
+                return false;
+        }
         return !(e instanceof PlayerEntity);
     }
 
@@ -84,12 +81,11 @@ public class Events {
 
     public static void infectionTick(LivingEntity entity) {
         spreadInfection(entity);
-        // TODO Config
-        if (entity instanceof AnimalEntity) {
-            entity.hurt(DamageSource.STARVE, .5f);
-        } else if (entity instanceof MonsterEntity) {
+        if (entity instanceof AnimalEntity && ConfigHandler.COMMON.damagePassive.get()) {
+            entity.hurt(DamageSource.STARVE, ConfigHandler.COMMON.passiveDamageAmount.get());
+        } else if (entity instanceof MonsterEntity && ConfigHandler.COMMON.boostHostile.get()) {
             entity.addEffect(new EffectInstance(Effects.DAMAGE_BOOST, 160));
-        } else if (entity instanceof MobEntity) {
+        } else if (entity instanceof MobEntity && ConfigHandler.COMMON.neutralResist.get()) {
             entity.addEffect(new EffectInstance(Effects.DAMAGE_RESISTANCE, 160));
         }
     }

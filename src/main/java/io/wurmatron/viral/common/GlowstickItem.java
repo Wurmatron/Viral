@@ -24,11 +24,9 @@ public class GlowstickItem extends Item {
             if (!player.hasEffect(Viral.REPEL_EFFECT.get()) || (player.hasEffect(Viral.REPEL_EFFECT.get()) && player.getEffect(Viral.REPEL_EFFECT.get()).getDuration() <= 20)) {
                 if (stack.getDamageValue() > 0 && stack.getDamageValue() < stack.getMaxDamage()) {
                     player.addEffect(new EffectInstance(Viral.REPEL_EFFECT.get(), 120));
+                    stack.setDamageValue(stack.getDamageValue() + 1);
                 }
             }
-        }
-        if (stack.getDamageValue() > 0 && stack.getDamageValue() < stack.getMaxDamage()) {
-            stack.setDamageValue(stack.getDamageValue() + 1);
         }
     }
 

@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:glowstone_dust"
+        },
+        {
+            "tag": "minecraft:saplings"
+        },
+        {
+            "item": "minecraft:gold_ingot"
+        },
+        {
+            "item": "viral:syringefilled"
+        }
+    ],
+    "result": {
+        "item": "viral:syringecure",
+        "count": 1
+    }
+}
