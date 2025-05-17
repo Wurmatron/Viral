@@ -1,6 +1,7 @@
 package io.wurmatron.viral;
 
 import io.wurmatron.viral.common.ConfigHandler;
+import io.wurmatron.viral.common.ViralItems;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -25,12 +26,12 @@ public class Viral {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addListener(this::setup);
         bus.addListener(this::client);
-        MinecraftForge.EVENT_BUS.register(Events.class);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigHandler.SPEC, "viral.toml");
+        MinecraftForge.EVENT_BUS.register(Events.class);
+        ViralItems.register(bus);
     }
 
     private void setup(FMLCommonSetupEvent e) {
-
     }
 
     private void client(FMLClientSetupEvent e) {
