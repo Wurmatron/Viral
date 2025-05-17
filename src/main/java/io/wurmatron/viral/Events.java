@@ -1,35 +1,39 @@
 package io.wurmatron.viral;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.Attribute;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.RangedAttribute;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Random;
 
 public class Events {
 
-    public static final DeferredRegister<Attribute> ATTRIBUTES = DeferredRegister.create(ForgeRegistries.ATTRIBUTES, Viral.MODID);
-    public static final RegistryObject<Attribute> INFECTED = ATTRIBUTES.register("attack_reach", () -> (Attribute) new RangedAttribute("attribute.viral.infected", 1D, 0.0D, 64D).setSyncable(true));
-
-    public static AttributeModifierMap.MutableAttribute createInfected() {
-        return LivingEntity.createLivingAttributes().add(INFECTED.get(), 1d);
-    }
+    public static final String TAG_INFECTED = "infected";
 
     @SubscribeEvent
-    public static void newEntityAttributes(LivingSpawnEvent e) {
-//        if (e.getEntityLiving() instanceof PigEntity) {
-//            PigEntity pig = (PigEntity) e.getEntityLiving();
-//            pig.addTag("infected");
-//        }
+    public static void LivingCreation(LivingSpawnEvent.SpecialSpawn e) {
+        attemptToInfect(e.getEntityLiving(), false);
+    }
+
+    public static void attemptToInfect(LivingEntity entity, boolean spread) {
+        // TODO Config
+        int rate = 10;
+        if (spread)
+            rate = 20;
+        if (isAllowedToBeInfected(entity) && entity.getRandom().nextInt(rate) == 1) {
+            entity.addTag(TAG_INFECTED);
+        }
+    }
+
+    // TODO Config
+    public static boolean isAllowedToBeInfected(LivingEntity e) {
+        return !(e instanceof PlayerEntity);
     }
 
     @SubscribeEvent
@@ -49,8 +53,23 @@ public class Events {
                                 (rand.nextDouble() * (double) liv.getBbHeight()) / 5,
                                 ((rand.nextDouble() * .1) * (double) liv.getBbWidth()) / 5,
                                 .1);
-
+                if (liv.getCommandSenderWorld().getGameTime() % 100 == 0) {
+                    infectionTick(liv);
+                }
             }
+        }
+    }
+
+    public static void infectionTick(LivingEntity entity) {
+        spreadInfection(entity);
+        // TODO Do Infection Effect
+    }
+
+    public static void spreadInfection(LivingEntity entity) {
+        AxisAlignedBB infectionArea = new AxisAlignedBB(entity.getX() - 8, entity.getY() - 8, entity.getZ() - 8, entity.getX() + 8, entity.getY() + 8, entity.getZ() + 8);
+        for (Entity toBeInfected : entity.getCommandSenderWorld().getEntities(null, infectionArea)) {
+            if (toBeInfected instanceof LivingEntity)
+                attemptToInfect((LivingEntity) toBeInfected, true);
         }
     }
 }
