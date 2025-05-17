@@ -4,6 +4,8 @@ import io.wurmatron.viral.common.ViralItems;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.monster.SlimeEntity;
@@ -20,6 +22,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -149,6 +152,17 @@ public class Events {
                 hand = ItemStack.EMPTY;
             e.getPlayer().inventory.setItem(e.getPlayer().inventory.selected, hand);
             e.getTarget().addTag(TAG_INFECTED);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onEntityUpdate(LivingSetAttackTargetEvent e) {
+        if (e.getTarget() != null && e.getTarget() instanceof PlayerEntity) {
+            PlayerEntity player = (PlayerEntity) e.getTarget();
+            if (player.getEffect(Viral.REPEL_EFFECT.get()) != null) {
+                MobEntity mob = (MobEntity) e.getEntityLiving();
+                mob.setTarget(null);
+            }
         }
     }
 }
